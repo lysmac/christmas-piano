@@ -49,10 +49,21 @@ const piano = [
 ];
 
 const history = ref<string | null>("");
+const historyDelays = ref<number[]>([]);
+const previousKeyPressTime = ref<number | null>(null);
 
 const activeKey = ref<string | null>(null);
 
 function handleClick(clickedKey: any) {
+  const currentTime = Date.now();
+
+  if (previousKeyPressTime.value !== null) {
+    const delay = currentTime - previousKeyPressTime.value;
+    historyDelays.value.push(delay);
+  }
+
+  previousKeyPressTime.value = currentTime;
+
   playNote(clickedKey.sound);
   activeKey.value = clickedKey.letter;
 
@@ -70,6 +81,15 @@ const handleKeyPress = (event: KeyboardEvent) => {
   const found = piano.find((object) => object.number === event.key);
 
   if (!found) return;
+
+  const currentTime = Date.now();
+
+  if (previousKeyPressTime.value !== null) {
+    const delay = currentTime - previousKeyPressTime.value;
+    historyDelays.value.push(delay);
+  }
+
+  previousKeyPressTime.value = currentTime;
 
   playNote(found.sound);
   activeKey.value = found.letter;
@@ -93,15 +113,19 @@ onUnmounted(() => {
 
 function playHistory(notes: string) {
   let delay = 0;
-  for (const note of notes) {
+  for (let i = 0; i < notes.length; i++) {
+    const note = notes[i];
     const matchedNote = piano.find((object) => object.letter === note);
+
     if (!matchedNote) continue;
 
     setTimeout(() => {
       playNote(matchedNote.sound);
     }, delay);
 
-    delay += 500;
+    if (i < historyDelays.value.length) {
+      delay += historyDelays.value[i];
+    }
   }
 }
 </script>
@@ -111,6 +135,7 @@ function playHistory(notes: string) {
     Replay history!
   </button>
 
+  <div class="px-2 font-bold text-xl">Delay: {{ historyDelays }}</div>
   <div class="px-2 font-bold text-xl">Note history: {{ history }}</div>
   <div class="bg-black px-2">
     <ul class="text-black-500 flex justify-center">
