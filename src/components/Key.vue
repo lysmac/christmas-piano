@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
-import playNote from "../playNote";
 import Ball from "./Ball.vue";
 
 const props = defineProps<{
   letter: string;
   sound: string;
-
   active: boolean;
 }>();
 
@@ -14,7 +12,7 @@ const isMoving = ref(false);
 const isClicked = ref(false);
 
 function handleClick() {
-  playNote(props.sound);
+  // playNote(props.sound);
   isClicked.value = true;
   setTimeout(() => {
     isClicked.value = false;
@@ -43,7 +41,7 @@ watchEffect(() => {
       }"
     />
     <li
-      @click="handleClick()"
+      @click="handleClick"
       :class="{
         'pushed-down': props.active || isClicked,
       }"

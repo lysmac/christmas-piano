@@ -52,6 +52,16 @@ const history = ref<string | null>("");
 
 const activeKey = ref<string | null>(null);
 
+function handleClick(clickedKey: any) {
+  playNote(clickedKey.sound);
+  activeKey.value = clickedKey.letter;
+
+  if (history.value === null || activeKey.value === null) return;
+
+  history.value = history.value + activeKey.value;
+  window.history.replaceState(null, "", history.value);
+}
+
 const handleKeyPress = (event: KeyboardEvent) => {
   const found = piano.find((object) => object.number === event.key);
 
@@ -88,6 +98,7 @@ onUnmounted(() => {
         :letter="key.letter"
         :sound="key.sound"
         :active="activeKey === key.letter"
+        @click="handleClick(key)"
       />
     </ul>
   </div>
