@@ -58,6 +58,10 @@ function handleClick(clickedKey: any) {
 
   if (history.value === null || activeKey.value === null) return;
 
+  activeKey.value = clickedKey.letter;
+  setTimeout(() => {
+    activeKey.value = "";
+  }, 200);
   history.value = history.value + activeKey.value;
   window.history.replaceState(null, "", history.value);
 }

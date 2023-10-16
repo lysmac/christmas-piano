@@ -9,15 +9,14 @@ const props = defineProps<{
 }>();
 
 const isMoving = ref(false);
-const isClicked = ref(false);
 
-function handleClick() {
-  // playNote(props.sound);
-  isClicked.value = true;
-  setTimeout(() => {
-    isClicked.value = false;
-  }, 200);
-}
+// function handleClick() {
+//   // playNote(props.sound);
+//   isClicked.value = true;
+//   setTimeout(() => {
+//     isClicked.value = false;
+//   }, 200);
+// }
 
 function playAnimation() {
   isMoving.value = true;
@@ -27,7 +26,7 @@ function playAnimation() {
 }
 
 watchEffect(() => {
-  if (props.active || isClicked.value) {
+  if (props.active) {
     playAnimation();
   }
 });
@@ -41,9 +40,8 @@ watchEffect(() => {
       }"
     />
     <li
-      @click="handleClick"
       :class="{
-        'pushed-down': props.active || isClicked,
+        'pushed-down': props.active,
       }"
     >
       {{ props.letter }}
@@ -57,7 +55,7 @@ watchEffect(() => {
 }
 
 li {
-  @apply bg-white m-1 h-40 p-4;
+  @apply bg-white m-1 h-40 p-4 w-12;
 }
 
 .move {
