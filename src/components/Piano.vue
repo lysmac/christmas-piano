@@ -90,9 +90,27 @@ onUnmounted(() => {
   document.removeEventListener("keydown", handleKeyPress);
   document.removeEventListener("keyup", resetKey);
 });
+
+function playHistory(notes: string) {
+  let delay = 0;
+  for (const note of notes) {
+    const matchedNote = piano.find((object) => object.letter === note);
+    if (!matchedNote) continue;
+
+    setTimeout(() => {
+      playNote(matchedNote.sound);
+    }, delay);
+
+    delay += 500;
+  }
+}
 </script>
 
 <template>
+  <button @click="playHistory(history)" class="bg-white p-2 rounded">
+    Replay history!
+  </button>
+
   <div class="px-2 font-bold text-xl">Note history: {{ history }}</div>
   <div class="bg-black px-2">
     <ul class="text-black-500 flex justify-center">

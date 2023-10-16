@@ -13,9 +13,9 @@ const isMoving = ref(false);
 // function handleClick() {
 //   // playNote(props.sound);
 //   isClicked.value = true;
-//   setTimeout(() => {
-//     isClicked.value = false;
-//   }, 200);
+// setTimeout(() => {
+//   isClicked.value = false;
+// }, 200);
 // }
 
 function playAnimation() {
