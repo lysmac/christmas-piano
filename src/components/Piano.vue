@@ -55,47 +55,48 @@ const previousKeyPressTime = ref<number | null>(null);
 const activeKey = ref<string | null>(null);
 
 function handleClick(clickedKey: any) {
-  const currentTime = Date.now();
-
-  if (previousKeyPressTime.value !== null) {
-    const delay = currentTime - previousKeyPressTime.value;
-    historyDelays.value.push(delay);
-  }
-
-  previousKeyPressTime.value = currentTime;
-
+  timer();
   playNote(clickedKey.sound);
-  activeKey.value = clickedKey.letter;
-
-  if (history.value === null || activeKey.value === null) return;
 
   activeKey.value = clickedKey.letter;
+
+  recordHistory(clickedKey);
+
   setTimeout(() => {
     activeKey.value = "";
   }, 200);
-  history.value = history.value + activeKey.value;
-  window.history.replaceState(null, "", history.value);
 }
 
 const handleKeyPress = (event: KeyboardEvent) => {
   const found = piano.find((object) => object.number === event.key);
-
   if (!found) return;
 
+  timer();
+  playNote(found.sound);
+  recordHistory(found);
+};
+
+function recordHistory(key: any) {
+  activeKey.value = key.letter;
+
+  if (history.value === null || activeKey.value === null) return;
+  history.value = history.value + activeKey.value;
+  window.history.replaceState(null, "", history.value);
+}
+
+function timer() {
   const currentTime = Date.now();
 
   if (previousKeyPressTime.value !== null) {
-    const delay = currentTime - previousKeyPressTime.value;
+    let delay = currentTime - previousKeyPressTime.value;
+    if (delay > 4000) {
+      delay = 4000;
+    }
     historyDelays.value.push(delay);
   }
 
   previousKeyPressTime.value = currentTime;
-
-  playNote(found.sound);
-  activeKey.value = found.letter;
-  history.value = history.value + activeKey.value;
-  window.history.replaceState(null, "", history.value);
-};
+}
 
 function resetKey() {
   activeKey.value = null;
