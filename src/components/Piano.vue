@@ -48,7 +48,7 @@ const piano = [
   },
 ];
 
-const history = ref<string | null>("");
+const history = ref<string>("");
 const historyDelays = ref<number[]>([]);
 const previousKeyPressTime = ref<number | null>(null);
 
@@ -81,7 +81,8 @@ function recordHistory(key: any) {
 
   if (history.value === null || activeKey.value === null) return;
   history.value = history.value + activeKey.value;
-  window.history.replaceState(null, "", history.value);
+  const notesAndDelay = history.value + historyDelays.value;
+  window.history.replaceState(null, "", notesAndDelay);
 }
 
 function timer() {
