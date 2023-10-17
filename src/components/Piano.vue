@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
 import Key from "../components/Key.vue";
+import playFromUrl from "../playFromUrl";
 import playNote from "../playNote";
 
 const piano = [
@@ -81,7 +82,7 @@ function recordHistory(key: any) {
 
   if (history.value === null || activeKey.value === null) return;
   history.value = history.value + activeKey.value;
-  const notesAndDelay = history.value + historyDelays.value;
+  const notesAndDelay = history.value + "&" + historyDelays.value;
   window.history.replaceState(null, "", notesAndDelay);
 }
 
@@ -113,10 +114,13 @@ onUnmounted(() => {
   document.removeEventListener("keyup", resetKey);
 });
 
-function playHistory(notes: string) {
+function playHistory() {
+  const urlHistory = playFromUrl();
+  console.log(urlHistory);
+
   let delay = 0;
-  for (let i = 0; i < notes.length; i++) {
-    const note = notes[i];
+  for (let i = 0; i < urlHistory.notes.length; i++) {
+    const note = urlHistory.notes[i];
     const matchedNote = piano.find((object) => object.letter === note);
 
     if (!matchedNote) continue;
@@ -125,17 +129,19 @@ function playHistory(notes: string) {
       playNote(matchedNote.sound);
     }, delay);
 
-    if (i < historyDelays.value.length) {
-      delay += historyDelays.value[i];
+    if (i < urlHistory.delays.length) {
+      delay += urlHistory.delays[i];
     }
   }
 }
 </script>
 
 <template>
-  <button @click="playHistory(history)" class="bg-white p-2 rounded">
-    Replay history!
-  </button>
+  <div class="flex flex-col gap-4">
+    <button @click="playHistory()" class="bg-white p-2 rounded">
+      Play from URL!
+    </button>
+  </div>
 
   <div class="px-2 font-bold text-xl">Delay: {{ historyDelays }}</div>
   <div class="px-2 font-bold text-xl">Note history: {{ history }}</div>
