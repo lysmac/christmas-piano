@@ -22,7 +22,7 @@ function playAnimation() {
   isMoving.value = true;
   setTimeout(() => {
     isMoving.value = false;
-  }, 1000);
+  }, 150);
 }
 
 watchEffect(() => {
@@ -59,7 +59,7 @@ li {
 }
 
 .move {
-  animation: bounce 1s;
+  animation: bounce 0.15s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: 1;
 }
@@ -69,7 +69,7 @@ li {
     transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translate3d(0, -200px, 0);
+    transform: translate3d(0, -40px, 0);
   }
   100% {
     transform: translate3d(0, 0, 0);
