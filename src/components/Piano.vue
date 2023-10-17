@@ -116,7 +116,6 @@ onUnmounted(() => {
 
 function playHistory() {
   const urlHistory = playFromUrl();
-  console.log(urlHistory);
 
   let delay = 0;
   for (let i = 0; i < urlHistory.notes.length; i++) {
@@ -134,17 +133,28 @@ function playHistory() {
     }
   }
 }
+
+function clearHistory() {
+  history.value = "";
+  historyDelays.value = [];
+  previousKeyPressTime.value = null;
+
+  window.history.replaceState(null, "", "/");
+}
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-4 p-4">
     <button @click="playHistory()" class="bg-white p-2 rounded">
       Play from URL!
     </button>
+    <button @click="clearHistory()" class="bg-white p-2 rounded">
+      Clear history
+    </button>
   </div>
 
-  <div class="px-2 font-bold text-xl">Delay: {{ historyDelays }}</div>
-  <div class="px-2 font-bold text-xl">Note history: {{ history }}</div>
+  <!-- <div class="px-2 font-bold text-xl">Delay: {{ historyDelays }}</div>
+  <div class="px-2 font-bold text-xl">Note history: {{ history }}</div> -->
   <div class="bg-black px-2">
     <ul class="text-black-500 flex justify-center">
       <Key
