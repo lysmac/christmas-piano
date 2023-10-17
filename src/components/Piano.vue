@@ -126,6 +126,11 @@ function playHistory() {
 
     setTimeout(() => {
       playNote(matchedNote.sound);
+      activeKey.value = matchedNote.letter;
+
+      setTimeout(() => {
+        activeKey.value = "";
+      }, 200);
     }, delay);
 
     if (i < urlHistory.delays.length) {
