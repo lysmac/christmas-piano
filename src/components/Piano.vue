@@ -130,7 +130,7 @@ function playHistory() {
 
       setTimeout(() => {
         activeKey.value = "";
-      }, 200);
+      }, 140);
     }, delay);
 
     if (i < urlHistory.delays.length) {
