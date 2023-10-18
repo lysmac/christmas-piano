@@ -152,13 +152,16 @@ const metronomeToggle = ref(false);
 const metronomeArray = ref<string[]>([]);
 
 watchEffect(() => {
+  if (!metronomeToggle.value) {
+    metronomeArray.value = metronome(false);
+    return;
+  }
   if (metronomeToggle.value) {
-    metronome(true);
-  } else {
-    const returnMetronome = metronome(false);
-    if (returnMetronome == undefined) return;
-
-    metronomeArray.value = returnMetronome;
+    if (activeKey.value == null || activeKey.value == undefined) {
+      metronome(true);
+    } else {
+      metronome(true, activeKey.value);
+    }
   }
 });
 </script>
