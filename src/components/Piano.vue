@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watchEffect } from "vue";
+import arrayToChars from "../arrayToChars";
 import Key from "../components/Key.vue";
 import metronome from "../metronome";
 import playFromUrl from "../playFromUrl";
@@ -154,6 +155,7 @@ const metronomeArray = ref<string[]>([]);
 watchEffect(() => {
   if (!metronomeToggle.value) {
     metronomeArray.value = metronome(false);
+    arrayToChars(metronomeArray.value);
     return;
   }
   if (metronomeToggle.value) {
@@ -164,6 +166,33 @@ watchEffect(() => {
     }
   }
 });
+const myArray = [
+  "c",
+  "tick",
+  "tick",
+  "tick",
+  "tick",
+  "d",
+  "tick",
+  "tick",
+  "e",
+  "f",
+  "tick",
+  "e",
+  "d",
+  "tick",
+  "tick",
+  "tick",
+  "c",
+  "d",
+  "e",
+  "tick",
+  "f",
+  "g",
+  "f",
+  "d",
+  "d",
+];
 </script>
 
 <template>
