@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref, watchEffect } from "vue";
 import Key from "../components/Key.vue";
+import metronome from "../metronome";
 import playFromUrl from "../playFromUrl";
 import playNote from "../playNote";
 
@@ -146,10 +147,27 @@ function clearHistory() {
 
   window.history.replaceState(null, "", "/");
 }
+
+const metronomeToggle = ref(false);
+
+watchEffect(() => {
+  if (metronomeToggle.value) {
+    metronome(true);
+  } else {
+    metronome(false);
+  }
+});
 </script>
 
 <template>
   <div class="flex flex-col gap-4 p-4">
+    <button
+      @click="metronomeToggle = !metronomeToggle"
+      class="bg-red-800 text-white rounded p-2"
+    >
+      Toggle Metronome
+    </button>
+    <p>Metronome is {{ metronomeToggle }}</p>
     <button @click="playHistory()" class="bg-white p-2 rounded">
       Play from URL!
     </button>
