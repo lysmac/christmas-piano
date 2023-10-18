@@ -149,12 +149,16 @@ function clearHistory() {
 }
 
 const metronomeToggle = ref(false);
+const metronomeArray = ref<string[]>([]);
 
 watchEffect(() => {
   if (metronomeToggle.value) {
     metronome(true);
   } else {
-    metronome(false);
+    const returnMetronome = metronome(false);
+    if (returnMetronome == undefined) return;
+
+    metronomeArray.value = returnMetronome;
   }
 });
 </script>
@@ -165,9 +169,10 @@ watchEffect(() => {
       @click="metronomeToggle = !metronomeToggle"
       class="bg-red-800 text-white rounded p-2"
     >
-      Toggle Metronome
+      {{ metronomeToggle ? "Stop recording" : "Start recording" }}
     </button>
     <p>Metronome is {{ metronomeToggle }}</p>
+    <p>Metronome is {{ metronomeArray }}</p>
     <button @click="playHistory()" class="bg-white p-2 rounded">
       Play from URL!
     </button>
