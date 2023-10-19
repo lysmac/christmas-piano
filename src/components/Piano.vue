@@ -84,7 +84,7 @@ function recordHistory(key: any) {
 
   if (history.value === null || activeKey.value === null) return;
   history.value = history.value + activeKey.value;
-  const notesAndDelay = history.value + "&" + historyDelays.value;
+  // const notesAndDelay = history.value + "&" + historyDelays.value;
   // window.history.replaceState(null, "", notesAndDelay);
 }
 
@@ -156,6 +156,7 @@ watchEffect(() => {
   if (!metronomeToggle.value) {
     metronomeArray.value = metronome(false);
     const shorterString = arrayToChars(metronomeArray.value);
+    console.log(shorterString);
     const arrayToString = shorterString.join("");
 
     if (arrayToString.length > 0) {

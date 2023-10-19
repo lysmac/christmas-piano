@@ -34,20 +34,52 @@ function shorterString(note: string, pauses: number) {
   const twoPauseNotes = ["A", "B", "C", "D", "E", "F", "G"];
   const threePauseNotes = ["H", "I", "J", "K", "L", "M", "N"];
 
+  //const masterlist = [...onePauseNotes, ...twoPauseNotes, ...threePauseNotes]
+
   const noteIndex = availableNotes.findIndex((n) => n === note);
 
   if (noteIndex === -1) {
     return note;
   }
 
-  switch (pauses) {
+  let emptyTickBlock = "";
+  let rest = pauses;
+
+  if (pauses >= 4) {
+    rest = pauses % 4;
+    let loop = pauses;
+    while (loop >= 4) {
+      emptyTickBlock += ";";
+      loop -= 4;
+    }
+  }
+  // console.log("empty blocks:", emptyTickBlock);
+  // console.log("rest:", rest);
+
+  switch (rest) {
     case 1:
-      return onePauseNotes[noteIndex];
+      if (emptyTickBlock.length != 0) {
+        return onePauseNotes[noteIndex] + emptyTickBlock;
+      } else {
+        return onePauseNotes[noteIndex];
+      }
     case 2:
-      return twoPauseNotes[noteIndex];
+      if (emptyTickBlock.length != 0) {
+        return twoPauseNotes[noteIndex] + emptyTickBlock;
+      } else {
+        return twoPauseNotes[noteIndex];
+      }
     case 3:
-      return threePauseNotes[noteIndex];
+      if (emptyTickBlock.length != 0) {
+        return threePauseNotes[noteIndex] + emptyTickBlock;
+      } else {
+        return threePauseNotes[noteIndex];
+      }
     default:
-      return note;
+      if (emptyTickBlock.length != 0) {
+        return note + emptyTickBlock;
+      } else {
+        return note;
+      }
   }
 }
