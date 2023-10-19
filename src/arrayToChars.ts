@@ -1,23 +1,3 @@
-// const myArray = [
-//   "c",
-//   "d",
-//   "e",
-//   "f",
-//   "e",
-//   "d",
-//   "tick",
-//   "tick",
-//   "c",
-//   "d",
-//   "e",
-//   "f",
-//   "g",
-//   "f",
-//   "d",
-//   "d",
-//   "tick",
-// ];
-
 const availableNotes = ["a", "b", "c", "d", "e", "f", "g"];
 const tick = "tick";
 
@@ -46,7 +26,7 @@ export default function arrayToChars(array: string[]) {
     }
   }
 
-  console.log(resultArray);
+  return resultArray;
 }
 
 function shorterString(note: string, pauses: number) {

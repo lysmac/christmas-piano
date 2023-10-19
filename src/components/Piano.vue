@@ -85,7 +85,7 @@ function recordHistory(key: any) {
   if (history.value === null || activeKey.value === null) return;
   history.value = history.value + activeKey.value;
   const notesAndDelay = history.value + "&" + historyDelays.value;
-  window.history.replaceState(null, "", notesAndDelay);
+  // window.history.replaceState(null, "", notesAndDelay);
 }
 
 function timer() {
@@ -155,7 +155,13 @@ const metronomeArray = ref<string[]>([]);
 watchEffect(() => {
   if (!metronomeToggle.value) {
     metronomeArray.value = metronome(false);
-    arrayToChars(metronomeArray.value);
+    const shorterString = arrayToChars(metronomeArray.value);
+    const arrayToString = shorterString.join("");
+
+    if (arrayToString.length > 0) {
+      window.history.replaceState(null, "", arrayToString);
+    }
+
     return;
   }
   if (metronomeToggle.value) {
@@ -166,33 +172,6 @@ watchEffect(() => {
     }
   }
 });
-const myArray = [
-  "c",
-  "tick",
-  "tick",
-  "tick",
-  "tick",
-  "d",
-  "tick",
-  "tick",
-  "e",
-  "f",
-  "tick",
-  "e",
-  "d",
-  "tick",
-  "tick",
-  "tick",
-  "c",
-  "d",
-  "e",
-  "tick",
-  "f",
-  "g",
-  "f",
-  "d",
-  "d",
-];
 </script>
 
 <template>
