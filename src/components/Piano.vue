@@ -2,8 +2,8 @@
 import { onMounted, onUnmounted, ref, watchEffect } from "vue";
 import arrayToChars from "../arrayToChars";
 import Key from "../components/Key.vue";
+import decoder from "../decoder";
 import metronome from "../metronome";
-import playFromUrl from "../playFromUrl";
 import playNote from "../playNote";
 
 const piano = [
@@ -58,10 +58,9 @@ const previousKeyPressTime = ref<number | null>(null);
 const activeKey = ref<string | null>(null);
 
 function handleClick(clickedKey: any) {
-  timer();
-  playNote(clickedKey.sound);
-
+  // timer();
   activeKey.value = clickedKey.letter;
+  playNote(clickedKey.sound);
 
   recordHistory(clickedKey);
 
@@ -74,7 +73,7 @@ const handleKeyPress = (event: KeyboardEvent) => {
   const found = piano.find((object) => object.number === event.key);
   if (!found) return;
 
-  timer();
+  // timer();
   playNote(found.sound);
   recordHistory(found);
 };
@@ -84,23 +83,24 @@ function recordHistory(key: any) {
 
   if (history.value === null || activeKey.value === null) return;
   history.value = history.value + activeKey.value;
+
   // const notesAndDelay = history.value + "&" + historyDelays.value;
   // window.history.replaceState(null, "", notesAndDelay);
 }
 
-function timer() {
-  const currentTime = Date.now();
+// function timer() {
+//   const currentTime = Date.now();
 
-  if (previousKeyPressTime.value !== null) {
-    let delay = currentTime - previousKeyPressTime.value;
-    if (delay > 4000) {
-      delay = 4000;
-    }
-    historyDelays.value.push(delay);
-  }
+//   if (previousKeyPressTime.value !== null) {
+//     let delay = currentTime - previousKeyPressTime.value;
+//     if (delay > 4000) {
+//       delay = 4000;
+//     }
+//     historyDelays.value.push(delay);
+//   }
 
-  previousKeyPressTime.value = currentTime;
-}
+//   previousKeyPressTime.value = currentTime;
+// }
 
 function resetKey() {
   activeKey.value = null;
@@ -116,13 +116,41 @@ onUnmounted(() => {
   document.removeEventListener("keyup", resetKey);
 });
 
-function playHistory() {
-  const urlHistory = playFromUrl();
+// function playHistory() {
+//   const urlHistory = playFromUrl();
 
-  let delay = 0;
-  for (let i = 0; i < urlHistory.notes.length; i++) {
-    const note = urlHistory.notes[i];
-    const matchedNote = piano.find((object) => object.letter === note);
+//   let delay = 0;
+//   for (let i = 0; i < urlHistory.notes.length; i++) {
+//     const note = urlHistory.notes[i];
+//     const matchedNote = piano.find((object) => object.letter === note);
+
+//     if (!matchedNote) continue;
+
+//     setTimeout(() => {
+//       playNote(matchedNote.sound);
+//       activeKey.value = matchedNote.letter;
+
+//       setTimeout(() => {
+//         activeKey.value = "";
+//       }, 140);
+//     }, delay);
+
+//     if (i < urlHistory.delays.length) {
+//       delay += urlHistory.delays[i];
+//     }
+//   }
+// }
+
+function playHistory() {
+  let url = new URL(window.location.href);
+  let decrypted = "";
+
+  [...url.pathname].forEach((c) => (decrypted += decoder(c)));
+
+  let delay = 1000; // Start playing delay
+  for (let i = 0; i < decrypted.length; i++) {
+    const char = decrypted[i];
+    const matchedNote = piano.find((object) => object.letter === char);
 
     if (!matchedNote) continue;
 
@@ -135,14 +163,18 @@ function playHistory() {
       }, 140);
     }, delay);
 
-    if (i < urlHistory.delays.length) {
-      delay += urlHistory.delays[i];
+    delay += 250;
+
+    if (i + 1 < decrypted.length && !isNaN(decrypted[i + 1])) {
+      delay += parseInt(decrypted[i + 1]) * 250;
+      i++;
     }
   }
 }
 
 function clearHistory() {
   history.value = "";
+  metronomeArray.value = [];
   historyDelays.value = [];
   previousKeyPressTime.value = null;
 
@@ -153,10 +185,17 @@ const metronomeToggle = ref(false);
 const metronomeArray = ref<string[]>([]);
 
 watchEffect(() => {
+  if (metronomeToggle.value) {
+    if (activeKey.value == null || activeKey.value == undefined) {
+      metronome(true);
+    } else {
+      metronome(true, activeKey.value);
+    }
+  }
   if (!metronomeToggle.value) {
     metronomeArray.value = metronome(false);
     const shorterString = arrayToChars(metronomeArray.value);
-    console.log(shorterString);
+    // console.log(shorterString);
     const arrayToString = shorterString.join("");
 
     if (arrayToString.length > 0) {
@@ -164,13 +203,6 @@ watchEffect(() => {
     }
 
     return;
-  }
-  if (metronomeToggle.value) {
-    if (activeKey.value == null || activeKey.value == undefined) {
-      metronome(true);
-    } else {
-      metronome(true, activeKey.value);
-    }
   }
 });
 </script>
