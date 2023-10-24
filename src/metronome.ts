@@ -1,14 +1,17 @@
 import playNote from "./playNote";
 
-let intervalId: number;
 const metronomeArray: string[] = [];
 const metronomeSound = "../src/assets/sounds/m.mp3";
 
-export default function metronome(
-  toggle: boolean,
-  note?: string | undefined | null
-) {
-  clearInterval(intervalId);
+export default function metronome(delayToPrevious: number, note: string) {
+  // första noten returneras bara
+  if (delayToPrevious === 0) {
+    return;
+  }
+
+  if (delayToPrevious >= 250) {
+    return "tick";
+  }
 
   if (!toggle) {
     console.log("Stopped the metronome");

@@ -3,7 +3,6 @@ import { onMounted, onUnmounted, ref, watchEffect } from "vue";
 import arrayToChars from "../arrayToChars";
 import Key from "../components/Key.vue";
 import decoder from "../decoder";
-import metronome from "../metronome";
 import playNote from "../playNote";
 
 const piano = [
@@ -51,95 +50,50 @@ const piano = [
   },
 ];
 
-const history = ref<string>("");
-const historyDelays = ref<number[]>([]);
-const previousKeyPressTime = ref<number | null>(null);
+const history = ref<Array<string | number>>([]);
 
 const activeKey = ref<string | null>(null);
 
+const keyPressTime = ref<number>(0);
+const previousKeyPressTime = ref<number | null>(null);
+const timeBetweenKeyPresses = ref<number>(0);
+
+const recordToggle = ref(false);
+
 function handleClick(clickedKey: any) {
-  // timer();
   activeKey.value = clickedKey.letter;
   playNote(clickedKey.sound);
 
-  recordHistory(clickedKey);
+  if (keyPressTime.value === 0) {
+    keyPressTime.value = Date.now();
+
+    if (recordToggle.value) {
+      history.value.push(0);
+      history.value.push(clickedKey.letter);
+    }
+  } else {
+    timeBetweenKeyPresses.value = Date.now() - keyPressTime.value;
+    if (recordToggle.value) {
+      history.value.push(timeBetweenKeyPresses.value);
+      history.value.push(clickedKey.letter);
+    }
+    keyPressTime.value = Date.now();
+  }
 
   setTimeout(() => {
     activeKey.value = "";
-  }, 200);
+  }, 140);
 }
 
 const handleKeyPress = (event: KeyboardEvent) => {
   const found = piano.find((object) => object.number === event.key);
   if (!found) return;
-
-  // timer();
-  playNote(found.sound);
-  recordHistory(found);
+  handleClick(found);
 };
-
-function recordHistory(key: any) {
-  activeKey.value = key.letter;
-
-  if (history.value === null || activeKey.value === null) return;
-  history.value = history.value + activeKey.value;
-
-  // const notesAndDelay = history.value + "&" + historyDelays.value;
-  // window.history.replaceState(null, "", notesAndDelay);
-}
-
-// function timer() {
-//   const currentTime = Date.now();
-
-//   if (previousKeyPressTime.value !== null) {
-//     let delay = currentTime - previousKeyPressTime.value;
-//     if (delay > 4000) {
-//       delay = 4000;
-//     }
-//     historyDelays.value.push(delay);
-//   }
-
-//   previousKeyPressTime.value = currentTime;
-// }
 
 function resetKey() {
   activeKey.value = null;
 }
-
-onMounted(() => {
-  document.addEventListener("keydown", handleKeyPress);
-  document.addEventListener("keyup", resetKey);
-});
-
-onUnmounted(() => {
-  document.removeEventListener("keydown", handleKeyPress);
-  document.removeEventListener("keyup", resetKey);
-});
-
-// function playHistory() {
-//   const urlHistory = playFromUrl();
-
-//   let delay = 0;
-//   for (let i = 0; i < urlHistory.notes.length; i++) {
-//     const note = urlHistory.notes[i];
-//     const matchedNote = piano.find((object) => object.letter === note);
-
-//     if (!matchedNote) continue;
-
-//     setTimeout(() => {
-//       playNote(matchedNote.sound);
-//       activeKey.value = matchedNote.letter;
-
-//       setTimeout(() => {
-//         activeKey.value = "";
-//       }, 140);
-//     }, delay);
-
-//     if (i < urlHistory.delays.length) {
-//       delay += urlHistory.delays[i];
-//     }
-//   }
-// }
 
 function playHistory() {
   let url = new URL(window.location.href);
@@ -173,50 +127,41 @@ function playHistory() {
 }
 
 function clearHistory() {
-  history.value = "";
-  metronomeArray.value = [];
-  historyDelays.value = [];
+  history.value = [];
   previousKeyPressTime.value = null;
-
   window.history.replaceState(null, "", "/");
 }
 
-const metronomeToggle = ref(false);
-const metronomeArray = ref<string[]>([]);
-
 watchEffect(() => {
-  if (metronomeToggle.value) {
-    if (activeKey.value == null || activeKey.value == undefined) {
-      metronome(true);
-    } else {
-      metronome(true, activeKey.value);
-    }
+  if (!recordToggle.value && history.value.length > 0) {
+    history.value.push(0);
+    const shorterString = arrayToChars(history.value);
+    window.history.replaceState(null, "", shorterString);
   }
-  if (!metronomeToggle.value) {
-    metronomeArray.value = metronome(false);
-    const shorterString = arrayToChars(metronomeArray.value);
-    // console.log(shorterString);
-    const arrayToString = shorterString.join("");
+});
 
-    if (arrayToString.length > 0) {
-      window.history.replaceState(null, "", arrayToString);
-    }
+onMounted(() => {
+  document.addEventListener("keydown", handleKeyPress);
+  document.addEventListener("keyup", resetKey);
+});
 
-    return;
-  }
+onUnmounted(() => {
+  document.removeEventListener("keydown", handleKeyPress);
+  document.removeEventListener("keyup", resetKey);
 });
 </script>
 
 <template>
   <div class="flex flex-col gap-4 p-4">
     <button
-      @click="metronomeToggle = !metronomeToggle"
+      @click="recordToggle = !recordToggle"
       class="bg-red-800 text-white rounded p-2"
     >
-      {{ metronomeToggle ? "Stop recording" : "Start recording" }}
+      {{ recordToggle ? "Stop recording" : "Start recording" }}
     </button>
-    <p>Metronome is {{ metronomeToggle }}</p>
-    <p>Metronome is {{ metronomeArray }}</p>
+    <p>Keypress time is {{ keyPressTime }}</p>
+    <p>Time between keypresses is {{ timeBetweenKeyPresses }}</p>
+    <p>History: {{ history }}</p>
     <button @click="playHistory()" class="bg-white p-2 rounded">
       Play from URL!
     </button>
@@ -225,8 +170,6 @@ watchEffect(() => {
     </button>
   </div>
 
-  <!-- <div class="px-2 font-bold text-xl">Delay: {{ historyDelays }}</div>
-  <div class="px-2 font-bold text-xl">Note history: {{ history }}</div> -->
   <div class="bg-black px-2">
     <ul class="text-black-500 flex justify-center">
       <Key
