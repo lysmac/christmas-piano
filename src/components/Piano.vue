@@ -119,7 +119,7 @@ function playHistory() {
 
     delay += 250;
 
-    if (i + 1 < decrypted.length && !isNaN(decrypted[i + 1])) {
+    if (i + 1 < decrypted.length && !isNaN(parseInt(decrypted[i + 1]))) {
       delay += parseInt(decrypted[i + 1]) * 250;
       i++;
     }
