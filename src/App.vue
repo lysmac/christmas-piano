@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import Instructions from "./components/Instructions.vue";
 import Piano from "./components/Piano.vue";
 </script>
 
 <template>
-  <Piano />
+  <div class="max-w-lg">
+    <Instructions />
+    <Piano />
+  </div>
 </template>
 
 <style scoped></style>
