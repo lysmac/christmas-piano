@@ -7,43 +7,43 @@ import playNote from "../playNote";
 
 const piano = [
   {
-    sound: "../src/assets/sounds/c.wav",
+    sound: "../assets/sounds/c.wav",
     letter: "c",
     keycode: 65,
     number: "1",
   },
   {
-    sound: "../src/assets/sounds/d.wav",
+    sound: "../assets/sounds/d.wav",
     letter: "d",
     keycode: 83,
     number: "2",
   },
   {
-    sound: "../src/assets/sounds/e.wav",
+    sound: "../assets/sounds/e.wav",
     letter: "e",
     keycode: 68,
     number: "3",
   },
   {
-    sound: "../src/assets/sounds/f.wav",
+    sound: "../assets/sounds/f.wav",
     letter: "f",
     keycode: 70,
     number: "4",
   },
   {
-    sound: "../src/assets/sounds/g.wav",
+    sound: "../assets/sounds/g.wav",
     letter: "g",
     keycode: 71,
     number: "5",
   },
   {
-    sound: "../src/assets/sounds/a.wav",
+    sound: "../assets/sounds/a.wav",
     letter: "a",
     keycode: 72,
     number: "6",
   },
   {
-    sound: "../src/assets/sounds/b.wav",
+    sound: "../assets/sounds/b.wav",
     letter: "b",
     keycode: 74,
     number: "7",
