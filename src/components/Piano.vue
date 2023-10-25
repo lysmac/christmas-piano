@@ -263,9 +263,9 @@ onUnmounted(() => {
     >
       {{ recordToggle ? "Stop recording" : "Start recording" }}
     </button>
-    <p>Keypress time is {{ keyPressTime }}</p>
+    <!-- <p>Keypress time is {{ keyPressTime }}</p>
     <p>Time between keypresses is {{ timeBetweenKeyPresses }}</p>
-    <p class="text-xs">History: {{ history }}</p>
+    <p class="text-xs">History: {{ history }}</p> -->
     <button @click="playHistory()" class="bg-white p-2 rounded">
       Play from URL!
     </button>
