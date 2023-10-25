@@ -117,10 +117,10 @@ function playHistory() {
       }, 140);
     }, delay);
 
-    delay += 250;
+    delay += 125;
 
     if (i + 1 < decrypted.length && !isNaN(parseInt(decrypted[i + 1]))) {
-      delay += parseInt(decrypted[i + 1]) * 250;
+      delay += parseInt(decrypted[i + 1]) * 125;
       i++;
     }
   }
@@ -130,6 +130,7 @@ function clearHistory() {
   history.value = [];
   previousKeyPressTime.value = null;
   window.history.replaceState(null, "", "/");
+  recordToggle.value = false;
 }
 
 watchEffect(() => {
