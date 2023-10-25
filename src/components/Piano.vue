@@ -117,10 +117,12 @@ function playHistory() {
       }, 140);
     }, delay);
 
+    // Ändra till 250 för gamla
     delay += 125;
 
     if (i + 1 < decrypted.length && !isNaN(parseInt(decrypted[i + 1]))) {
       delay += parseInt(decrypted[i + 1]) * 125;
+      // Ändra till 250 för gamla
       i++;
     }
   }
@@ -263,9 +265,9 @@ onUnmounted(() => {
     >
       {{ recordToggle ? "Stop recording" : "Start recording" }}
     </button>
-    <!-- <p>Keypress time is {{ keyPressTime }}</p>
+    <p>Keypress time is {{ keyPressTime }}</p>
     <p>Time between keypresses is {{ timeBetweenKeyPresses }}</p>
-    <p class="text-xs">History: {{ history }}</p> -->
+    <p class="text-xs">History: {{ history }}</p>
     <button @click="playHistory()" class="bg-white p-2 rounded">
       Play from URL!
     </button>

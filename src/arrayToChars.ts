@@ -16,8 +16,10 @@ export default function arrayToChars(history: (string | number)[]): string {
 
     const noteIndex = availableNotes.indexOf(note);
 
+    // Byt till 250 om 250ms
     const tempo = 125;
 
+    // Om 250 ms, ändra till 8
     let semicolons = "";
     while (pause >= tempo * 8) {
       semicolons += ";";
@@ -57,6 +59,8 @@ export default function arrayToChars(history: (string | number)[]): string {
     } else if (pause > tempo * 8 + tempo / 2) {
       resultArray.push(sevenPauseNotes[noteIndex]);
     }
+
+    // Om man vill köra 250ms istället för det ovan
 
     // if (pause <= tempo + tempo / 2) {
     //   resultArray.push(availableNotes[noteIndex]);

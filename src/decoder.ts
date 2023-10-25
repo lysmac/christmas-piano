@@ -27,15 +27,12 @@ export default function decoder(char: string) {
   if (foundIndex === 0) {
     return char;
   }
-
   if (foundIndex === 1) {
     return availableNotes[noteIndices[1]] + 1;
   }
-
   if (foundIndex === 2) {
     return availableNotes[noteIndices[2]] + 2;
   }
-
   if (foundIndex === 3) {
     return availableNotes[noteIndices[3]] + 3;
   }
@@ -55,6 +52,8 @@ export default function decoder(char: string) {
   if (char === ";") {
     return 8;
   }
+
+  // Om återställa till 250ms, return 4 på ;. Ta bort allt efter 4
 
   return "";
 }
