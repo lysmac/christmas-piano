@@ -20,6 +20,12 @@ export default function arrayToChars(history: (string | number)[]): string {
       pause -= tempo * 4;
     }
 
+    // Intervall (inkl. min delay mellan noter):
+    // 0 - 375 = 250
+    // 376 - 625 = 500
+    // 626 - 875 = 750
+    // 876 - 1000 = 1000
+
     if (pause <= tempo + tempo / 2) {
       resultArray.push(availableNotes[noteIndex]);
     } else if (pause <= tempo * 2 + tempo / 2) {
