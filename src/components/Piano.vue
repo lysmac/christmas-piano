@@ -291,6 +291,7 @@ onUnmounted(() => {
         :sound="key.sound"
         :active="activeKey === key.letter"
         @click="handleClick(key)"
+        @touchstart="handleClick(key)"
       />
     </ul>
   </div>
