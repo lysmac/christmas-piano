@@ -53,8 +53,7 @@ const piano: Note[] = [
     number: "7",
   },
 ];
-const AudioContext = window.AudioContext || window.AudioContext;
-const audioCtx = new AudioContext();
+
 const audioMap: Record<string, HTMLAudioElement> = {};
 
 piano.forEach((note) => {
