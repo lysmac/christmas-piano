@@ -5,7 +5,13 @@ import Key from "../components/Key.vue";
 import decoder from "../decoder";
 import playNote from "../playNote";
 
-const piano = [
+type Note = {
+  sound: string;
+  letter: string;
+  keycode: number;
+  number: string;
+};
+const piano: Note[] = [
   {
     sound: "/sounds/c.wav",
     letter: "c",
@@ -62,7 +68,7 @@ const recordToggle = ref(false);
 
 function handleClick(clickedKey: any) {
   activeKey.value = clickedKey.letter;
-  playNote(clickedKey.sound);
+  playNote(clickedKey.letter);
 
   if (keyPressTime.value === 0) {
     keyPressTime.value = Date.now();
@@ -109,7 +115,7 @@ function playHistory() {
     if (!matchedNote) continue;
 
     setTimeout(() => {
-      playNote(matchedNote.sound);
+      playNote(matchedNote.letter);
       activeKey.value = matchedNote.letter;
 
       setTimeout(() => {
