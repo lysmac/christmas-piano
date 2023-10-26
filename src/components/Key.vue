@@ -33,7 +33,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center">
+  <div class="flex flex-col items-center key">
     <Ball
       :class="{
         move: isMoving,
@@ -50,6 +50,9 @@ watchEffect(() => {
 </template>
 
 <style scoped>
+.key {
+  touch-action: manipulation;
+}
 .pushed-down {
   @apply bg-emerald-400;
 }

@@ -55,6 +55,8 @@ const piano: Note[] = [
     number: "7",
   },
 ];
+const AudioContext = window.AudioContext || window.AudioContext;
+const audioCtx = new AudioContext();
 
 const history = ref<Array<string | number>>([]);
 
