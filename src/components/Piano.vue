@@ -3,7 +3,7 @@ import { onMounted, onUnmounted, ref, watchEffect } from "vue";
 import arrayToChars from "../arrayToChars";
 import Key from "../components/Key.vue";
 import decoder from "../decoder";
-import playNote from "../playNote";
+import AnimatedObjects from "./AnimatedObjects.vue";
 
 type Note = {
   sound: string;
@@ -68,7 +68,8 @@ const recordToggle = ref(false);
 
 function handleClick(clickedKey: any) {
   activeKey.value = clickedKey.letter;
-  playNote(clickedKey.letter);
+  // playNote(clickedKey.letter);
+  playSound(clickedKey.letter);
 
   if (keyPressTime.value === 0) {
     keyPressTime.value = Date.now();
@@ -115,7 +116,8 @@ function playHistory() {
     if (!matchedNote) continue;
 
     setTimeout(() => {
-      playNote(matchedNote.letter);
+      playSound(matchedNote.letter);
+      // playNote(matchedNote.letter);
       activeKey.value = matchedNote.letter;
 
       setTimeout(() => {
@@ -140,6 +142,18 @@ function clearHistory() {
   window.history.replaceState(null, "", "/");
   recordToggle.value = false;
 }
+const audioContext = new (window.AudioContext || window.AudioContext)();
+const audioBuffers = ref<{ [key: string]: AudioBuffer | null }>({});
+
+const playSound = (soundId: string) => {
+  const buffer = audioBuffers.value[soundId];
+  if (!buffer) return; // Exit if buffer is not loaded or had an error
+
+  const source = audioContext.createBufferSource();
+  source.buffer = buffer;
+  source.connect(audioContext.destination);
+  source.start();
+};
 
 watchEffect(() => {
   // remove this later, test array with manual input
@@ -252,7 +266,19 @@ watchEffect(() => {
   }
 });
 
-onMounted(() => {
+onMounted(async () => {
+  for (const sound of piano) {
+    try {
+      const response = await fetch(sound.sound);
+      const audioData = await response.arrayBuffer();
+      audioBuffers.value[sound.letter] = await audioContext.decodeAudioData(
+        audioData
+      );
+    } catch (e) {
+      console.error(`Error fetching or decoding ${sound.letter}`, e);
+      audioBuffers.value[sound.letter] = null;
+    }
+  }
   document.addEventListener("keydown", handleKeyPress);
   document.addEventListener("keyup", resetKey);
 });
@@ -265,21 +291,25 @@ onUnmounted(() => {
 
 <template>
   <div class="flex flex-col gap-4 p-4">
-    <button
-      @click="recordToggle = !recordToggle"
-      class="bg-red-800 text-white rounded p-2"
-    >
-      {{ recordToggle ? "Stop recording" : "Start recording" }}
-    </button>
-    <p>Keypress time is {{ keyPressTime }}</p>
-    <p>Time between keypresses is {{ timeBetweenKeyPresses }}</p>
-    <p class="text-xs">History: {{ history }}</p>
-    <button @click="playHistory()" class="bg-white p-2 rounded">
-      Play from URL!
-    </button>
-    <button @click="clearHistory()" class="bg-white p-2 rounded">
-      Clear history
-    </button>
+    <!-- <p>Keypress time is {{ keyPressTime }}</p> -->
+    <p class="text-xs">
+      Time between keypresses is {{ timeBetweenKeyPresses }}
+    </p>
+    <!-- <p class="text-xs">History: {{ history }}</p> -->
+    <div class="buttons flex justify-around text-sm">
+      <button
+        @click="recordToggle = !recordToggle"
+        class="bg-red-800 text-white rounded p-2"
+      >
+        {{ recordToggle ? "Stop recording" : "Start recording" }}
+      </button>
+      <button @click="playHistory()" class="bg-white p-2 rounded">
+        Play from URL!
+      </button>
+      <button @click="clearHistory()" class="bg-white p-2 rounded">
+        Clear history
+      </button>
+    </div>
   </div>
 
   <div class="bg-black px-2">
@@ -294,4 +324,8 @@ onUnmounted(() => {
       />
     </ul>
   </div>
+
+  <Teleport to="body">
+    <AnimatedObjects :pianoNot="activeKey" />
+  </Teleport>
 </template>

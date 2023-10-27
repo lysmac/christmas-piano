@@ -58,7 +58,7 @@ watchEffect(() => {
 }
 
 li {
-  @apply bg-white m-1 h-40 p-4 w-12;
+  @apply bg-white m-1 h-40 p-4 w-10;
 }
 
 .move {
