@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
+import Car from "./Car.vue";
 import Hand from "./Hand.vue";
-import SantaFace from "./SantaFace.vue";
 
 const props = defineProps<{
   pianoNot: string | null;
@@ -11,56 +11,102 @@ const waveTriggerRight = ref(false);
 const waveTriggerLeft = ref(false);
 
 watchEffect(() => {
-  if (props.pianoNot === "d") {
+  if (props.pianoNot === "e") {
     waveTriggerRight.value = true;
     setTimeout(() => {
       waveTriggerRight.value = false;
-    }, 1000);
+    }, 250);
   }
   if (props.pianoNot === "c") {
     waveTriggerLeft.value = true;
     setTimeout(() => {
       waveTriggerLeft.value = false;
-    }, 1000);
+    }, 500);
   }
 });
+
+const hands = [
+  {
+    position: "left-12 bottom-20 -rotate-45",
+    pianoKey: "c",
+    direction: "left",
+  },
+  {
+    position: "left-16 top-20 -rotate-45",
+    pianoKey: "d",
+    direction: "left",
+  },
+  {
+    position: "left-24 top-10 -rotate-45",
+    pianoKey: "e",
+    direction: "left",
+  },
+  {
+    position: "left-34 top-8",
+    pianoKey: "f",
+    direction: "top",
+  },
+  {
+    position: "right-24 top-10 rotate-45",
+    pianoKey: "g",
+    direction: "right",
+  },
+  {
+    position: "right-16 top-20 rotate-45",
+    pianoKey: "a",
+    direction: "right",
+  },
+  {
+    position: "right-12 bottom-20 rotate-45",
+    pianoKey: "b",
+    direction: "right",
+  },
+];
 </script>
 
 <template>
-  <div class="bg-slate-300 w-40 flex justify-center">
-    <SantaFace :pianoNot="props.pianoNot" />
+  <div class="bg-slate-300 w-80 flex justify-center align-middle p-4 relative">
     <Hand
-      :pianoNot="pianoNot"
-      class="right"
-      :class="{ wave: waveTriggerRight }"
+      v-for="hand in hands"
+      :key="hand.pianoKey"
+      :hand="hand"
+      :active="pianoNot === hand.pianoKey"
     />
-    <Hand
-      :pianoNot="pianoNot"
-      class="left"
-      :class="{ wave: waveTriggerLeft }"
-    />
+
+    <Car class="bil" />
   </div>
 </template>
 
 <style scoped>
-.right {
-  @apply absolute bottom-12 left-28;
-  --initial-rotation: 80deg; /* default value */
-  transform: rotate(var(--initial-rotation));
-}
-.left {
-  @apply absolute bottom-12 left-2;
-  --initial-rotation: -80deg; /* default value */
-
-  transform: rotate(var(--initial-rotation));
+.bil {
+  @apply z-20;
 }
 
 .wave {
-  animation-name: wave-animation; /* Refers to the name of your @keyframes element below */
-  animation-duration: 2.5s; /* Change to speed up or slow down */
+  animation-name: wave-animation;
+  animation-duration: 0.25s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
 }
 
 @keyframes wave-animation {
+  0%,
+  100% {
+    @apply right-12 bottom-20;
+  }
+  50% {
+    @apply right-4 bottom-20;
+  }
+}
+
+.wave-original {
+  animation-name: wave-animation-original;
+  animation-duration: 2.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes wave-animation-original {
   0% {
     transform: rotate(calc(var(--initial-rotation) + 0deg));
   }

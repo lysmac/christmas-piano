@@ -2,17 +2,36 @@
 import { ref, watchEffect } from "vue";
 
 const props = defineProps<{
-  pianoNot: string | null;
+  hand: {
+    position: string;
+    pianoKey: string;
+    direction: string;
+  };
+  active: boolean;
 }>();
 
 const fillColor = ref("red");
 
 watchEffect(() => {
-  if (props.pianoNot === null) {
-    fillColor.value = "blue";
+  if (props.active) {
+    fillColor.value = "magenta";
   }
-  if (props.pianoNot === "c") {
-    fillColor.value = "#00FF00";
+  if (!props.active) {
+    fillColor.value = "red";
+  }
+});
+
+const transformValue = ref("");
+
+watchEffect(() => {
+  if (props.hand.direction === "left" && props.active) {
+    transformValue.value = "translateX(-30px)";
+  } else if (props.hand.direction === "right" && props.active) {
+    transformValue.value = "translateX(30px)";
+  } else if (props.hand.direction === "top" && props.active) {
+    transformValue.value = "translateY(-30px)";
+  } else {
+    transformValue.value = "";
   }
 });
 </script>
@@ -27,6 +46,10 @@ watchEffect(() => {
     height="40px"
     viewBox="0 0 32 32"
     xml:space="preserve"
+    :fill="fillColor"
+    class="hand absolute z-40"
+    :class="hand.position"
+    :style="{ transform: transformValue }"
   >
     <path
       class="sketchy_een"
@@ -127,4 +150,7 @@ watchEffect(() => {
   </svg>
 </template>
 
-<style scoped></style>
+<style scoped>
+.hand {
+}
+</style>

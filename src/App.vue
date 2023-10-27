@@ -2,6 +2,7 @@
 import Header from "./components/Header.vue";
 import Instructions from "./components/Instructions.vue";
 import Piano from "./components/Piano.vue";
+import Sketch from "./components/Sketch.vue";
 </script>
 
 <template>
@@ -12,6 +13,7 @@ import Piano from "./components/Piano.vue";
       <Piano />
     </div>
   </div>
+  <Sketch />
 </template>
 
 <style scoped></style>
