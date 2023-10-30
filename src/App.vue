@@ -1,19 +1,23 @@
 <script setup lang="ts">
+import AnimationGroup from "./components/AnimationGroup.vue";
 import Header from "./components/Header.vue";
-import Instructions from "./components/Instructions.vue";
-import Piano from "./components/Piano.vue";
-import Sketch from "./components/Sketch.vue";
 </script>
 
 <template>
   <Header />
-  <div id="main">
-    <div class="max-w-lg">
-      <Instructions />
-      <Piano />
+  <div id="main" class="flex flex-col">
+    <div class="max-w-xl">
+      <AnimationGroup />
+      <!-- <img src="src/assets/images/van.svg" height="500px" /> -->
+      <!-- <Instructions />
+      <Piano /> -->
     </div>
   </div>
-  <Sketch />
+  <!-- <Sketch /> -->
 </template>
 
-<style scoped></style>
+<style scoped>
+#main {
+  height: 100dvh;
+}
+</style>
