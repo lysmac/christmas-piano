@@ -3,5 +3,6 @@
 @tailwind utilities;
 
 body {
-  @apply flex  h-screen items-center flex-col bg-[url('assets/images/background.svg')] bg-cover bg-center;
+  @apply flex  items-center flex-col bg-[url('assets/images/background.svg')] bg-cover bg-center m-0 p-0;
+  height: 100dvh;
 }

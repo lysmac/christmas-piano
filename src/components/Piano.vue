@@ -4,6 +4,7 @@ import arrayToChars from "../arrayToChars";
 import Key from "../components/Key.vue";
 import decoder from "../decoder";
 import AnimatedObjects from "./AnimatedObjects.vue";
+import AnimationGroup from "./AnimationGroup.vue";
 
 type Note = {
   sound: string;
@@ -290,6 +291,8 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <AnimationGroup :pianoNot="activeKey" />
+
   <div class="flex flex-col gap-4 p-4">
     <!-- <p>Keypress time is {{ keyPressTime }}</p> -->
     <p class="text-xs">

@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import Elf from "./Elf.vue";
 import Van from "./Van.vue";
 
-// const props = defineProps<{
-//   pianoNot: string | null;
-// }>();
+const props = defineProps<{
+  pianoNot: string | null;
+}>();
 
 // const waveTriggerRight = ref(false);
 // const waveTriggerLeft = ref(false);
@@ -63,27 +64,39 @@ import Van from "./Van.vue";
 </script>
 
 <template>
-  <div
-    id="animationGroup"
-    class="border-red-100 border-2 bg-emerald-500 relative"
-  >
-    <!-- <Hand
-      v-for="hand in hands"
-      :key="hand.pianoKey"
-      :hand="hand"
-      :active="pianoNot === hand.pianoKey"
+  <div id="animationGroup" class="border-red-600 border-2 relative">
+    <Elf
+      :startX="70"
+      :startY="200"
+      :angle="-25"
+      :animationX="70"
+      :animationY="265"
+      :active="props.pianoNot === 'e'"
+    />
+    <Elf
+      :startX="70"
+      :startY="190"
+      :angle="25"
+      :animationX="70"
+      :animationY="265"
+      :active="props.pianoNot === 'f'"
+    />
+    <!-- <Elf
+      :startX="70"
+      :startY="265"
+      :angle="-25"
+      :animationX="0"
+      :animationY="0"
     /> -->
 
     <Van />
-    <!-- <Elf />
-    <Bell />
-    <PianoKeys /> -->
   </div>
 </template>
 
 <style scoped>
 #animationGroup {
   height: 70dvh;
+  overflow: hidden;
 }
 .bil {
   @apply z-20;
