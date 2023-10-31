@@ -5,62 +5,6 @@ import Van from "./Van.vue";
 const props = defineProps<{
   pianoNot: string | null;
 }>();
-
-// const waveTriggerRight = ref(false);
-// const waveTriggerLeft = ref(false);
-
-// watchEffect(() => {
-//   if (props.pianoNot === "e") {
-//     waveTriggerRight.value = true;
-//     setTimeout(() => {
-//       waveTriggerRight.value = false;
-//     }, 250);
-//   }
-//   if (props.pianoNot === "c") {
-//     waveTriggerLeft.value = true;
-//     setTimeout(() => {
-//       waveTriggerLeft.value = false;
-//     }, 500);
-//   }
-// });
-
-// const hands = [
-//   {
-//     position: "left-12 bottom-20 -rotate-45",
-//     pianoKey: "c",
-//     direction: "left",
-//   },
-//   {
-//     position: "left-16 top-20 -rotate-45",
-//     pianoKey: "d",
-//     direction: "left",
-//   },
-//   {
-//     position: "left-24 top-10 -rotate-45",
-//     pianoKey: "e",
-//     direction: "left",
-//   },
-//   {
-//     position: "left-34 top-8",
-//     pianoKey: "f",
-//     direction: "top",
-//   },
-//   {
-//     position: "right-24 top-10 rotate-45",
-//     pianoKey: "g",
-//     direction: "right",
-//   },
-//   {
-//     position: "right-16 top-20 rotate-45",
-//     pianoKey: "a",
-//     direction: "right",
-//   },
-//   {
-//     position: "right-12 bottom-20 rotate-45",
-//     pianoKey: "b",
-//     direction: "right",
-//   },
-// ];
 </script>
 
 <template>
@@ -69,16 +13,12 @@ const props = defineProps<{
       :startX="70"
       :startY="200"
       :angle="-25"
-      :animationX="70"
-      :animationY="265"
       :active="props.pianoNot === 'e'"
     />
     <Elf
       :startX="70"
       :startY="190"
       :angle="25"
-      :animationX="70"
-      :animationY="265"
       :active="props.pianoNot === 'f'"
     />
     <!-- <Elf
@@ -95,6 +35,7 @@ const props = defineProps<{
 
 <style scoped>
 #animationGroup {
+  @apply bg-[url('../assets/images/background.svg')] bg-cover bg-center;
   height: 70dvh;
   overflow: hidden;
 }

@@ -1,52 +1,26 @@
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
 
-// import { ref, watchEffect } from "vue";
-
-// const props = defineProps<{
-//   pianoNot: string | null;
-// }>();
-
-// const fillColor = ref("red");
-
-// watchEffect(() => {
-//   if (props.pianoNot === null) {
-//     fillColor.value = "blue";
-//   }
-//   if (props.pianoNot === "c") {
-//     fillColor.value = "#00FF00";
-//   }
-// });
-
 const props = defineProps({
   startX: { type: Number, default: 0 },
   startY: { type: Number, default: 200 },
   angle: { type: Number, default: 0 },
-  animationX: { type: Number, default: 0 },
-  animationY: { type: Number, default: 0 },
   active: { type: Boolean, default: false },
 });
 
 const isAnimating = ref(false);
-// const currentX = computed(() =>
-//   isAnimating.value ? props.animationX : props.startX
-// );
-// const currentY = computed(() =>
-//   isAnimating.value ? props.animationY : props.startY
-// );
 
 watchEffect(() => {
   if (props.active) {
     isAnimating.value = true;
     setTimeout(() => {
       isAnimating.value = false;
-    }, 200);
+    }, 250);
   }
 });
 </script>
 
 <template>
-  this is: {{ props.active }}
   <svg
     id="Layer_1"
     data-name="Layer 1"
@@ -54,7 +28,7 @@ watchEffect(() => {
     xmlns:xlink="http://www.w3.org/1999/xlink"
     :viewBox="`${startX} ${startY} 390 644`"
     :style="{ transform: `rotate(${props.angle}deg)` }"
-    class="z-30 absolute"
+    class="z-40 absolute"
   >
     <g :class="isAnimating ? 'peek' : ''">
       <image
@@ -77,10 +51,11 @@ watchEffect(() => {
 
 <style scoped>
 .peek {
-  animation: bounce 0.2s;
+  animation: bounce 0.25s;
 }
 .wiggle {
-  animation: rotate360 0.25s;
+  animation: rotate 0.25s;
+  transform-origin: 64% 56%;
 }
 
 @keyframes bounce {
@@ -90,18 +65,26 @@ watchEffect(() => {
   }
 
   50% {
-    transform: translateY(-50px);
+    transform: translateY(-80px);
   }
 }
 
-@keyframes rotate360 {
+@keyframes rotate {
   0%,
   100% {
     transform: rotate(0deg);
   }
 
+  25% {
+    transform: rotate(-90deg);
+  }
+
   50% {
-    transform: rotate(5deg);
+    transform: rotate(90deg);
+  }
+
+  75% {
+    transform: rotate(0deg);
   }
 }
 </style>

@@ -3,7 +3,6 @@ import { onMounted, onUnmounted, ref, watchEffect } from "vue";
 import arrayToChars from "../arrayToChars";
 import Key from "../components/Key.vue";
 import decoder from "../decoder";
-import AnimatedObjects from "./AnimatedObjects.vue";
 import AnimationGroup from "./AnimationGroup.vue";
 
 type Note = {
@@ -327,8 +326,4 @@ onUnmounted(() => {
       />
     </ul>
   </div>
-
-  <Teleport to="body">
-    <AnimatedObjects :pianoNot="activeKey" />
-  </Teleport>
 </template>
