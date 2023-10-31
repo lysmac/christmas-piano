@@ -37,9 +37,9 @@ const props = defineProps<{
       :active="props.pianoNot === 'd'"
     />
     <Elf
-      :startX="70"
-      :startY="150"
-      :angle="-25"
+      :startX="-20"
+      :startY="100"
+      :angle="0"
       :active="props.pianoNot === 'e'"
     />
     <Elf
@@ -63,9 +63,6 @@ const props = defineProps<{
 #animationGroup {
   @apply bg-[url('../assets/images/background.svg')] bg-cover bg-center h-3/4;
   overflow: hidden;
-}
-.bil {
-  @apply z-20;
 }
 
 .wave {
