@@ -28,7 +28,7 @@ watchEffect(() => {
     xmlns:xlink="http://www.w3.org/1999/xlink"
     :viewBox="`${startX} ${startY} 390 644`"
     :style="{ transform: `rotate(${props.angle}deg)` }"
-    class="z-40 absolute"
+    class="z-10 absolute"
   >
     <g :class="isAnimating ? 'peek' : ''">
       <image

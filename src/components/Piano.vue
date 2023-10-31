@@ -137,12 +137,12 @@ function playHistory() {
   }
 }
 
-function clearHistory() {
-  history.value = [];
-  previousKeyPressTime.value = null;
-  window.history.replaceState(null, "", "/");
-  recordToggle.value = false;
-}
+// function clearHistory() {
+//   history.value = [];
+//   previousKeyPressTime.value = null;
+//   window.history.replaceState(null, "", "/");
+//   recordToggle.value = false;
+// }
 const audioContext = new (window.AudioContext || window.AudioContext)();
 const audioBuffers = ref<{ [key: string]: AudioBuffer | null }>({});
 

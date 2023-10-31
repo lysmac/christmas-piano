@@ -16,21 +16,44 @@ const props = defineProps<{
       :startX="70"
       :startY="150"
       :angle="-25"
-      :active="props.pianoNot === 'e'"
+      :active="props.pianoNot === 'a'"
     />
     <Elf
       :startX="70"
       :startY="140"
       :angle="25"
+      :active="props.pianoNot === 'b'"
+    />
+    <Elf
+      :startX="35"
+      :startY="140"
+      :angle="-15"
+      :active="props.pianoNot === 'c'"
+    />
+    <Elf
+      :startX="90"
+      :startY="150"
+      :angle="80"
+      :active="props.pianoNot === 'd'"
+    />
+    <Elf
+      :startX="70"
+      :startY="150"
+      :angle="-25"
+      :active="props.pianoNot === 'e'"
+    />
+    <Elf
+      :startX="-10"
+      :startY="10"
+      :angle="180"
       :active="props.pianoNot === 'f'"
     />
-    <!-- <Elf
-      :startX="70"
-      :startY="265"
+    <Elf
+      :startX="120"
+      :startY="170"
       :angle="-25"
-      :animationX="0"
-      :animationY="0"
-    /> -->
+      :active="props.pianoNot === 'g'"
+    />
 
     <Van />
   </div>
