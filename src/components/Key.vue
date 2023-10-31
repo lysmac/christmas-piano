@@ -1,52 +1,18 @@
 <script setup lang="ts">
-import { ref, watchEffect } from "vue";
-import Ball from "./Ball.vue";
-
 const props = defineProps<{
+  isActive: boolean;
   letter: string;
-  sound: string;
-  active: boolean;
 }>();
-
-const isMoving = ref(false);
-
-// function handleClick() {
-//   // playNote(props.sound);
-//   isClicked.value = true;
-// setTimeout(() => {
-//   isClicked.value = false;
-// }, 200);
-// }
-
-function playAnimation() {
-  isMoving.value = true;
-  setTimeout(() => {
-    isMoving.value = false;
-  }, 150);
-}
-
-watchEffect(() => {
-  if (props.active) {
-    playAnimation();
-  }
-});
 </script>
 
 <template>
-  <div class="flex flex-col items-center key">
-    <Ball
-      :class="{
-        move: isMoving,
-      }"
-    />
-    <li
-      :class="{
-        'pushed-down': props.active,
-      }"
-    >
-      {{ props.letter }}
-    </li>
-  </div>
+  <li
+    :class="{
+      'pushed-down': props.isActive,
+    }"
+  >
+    {{ props.letter }}
+  </li>
 </template>
 
 <style scoped>
@@ -54,11 +20,11 @@ watchEffect(() => {
   touch-action: manipulation;
 }
 .pushed-down {
-  @apply bg-emerald-400;
+  @apply bg-slate-300;
 }
 
 li {
-  @apply bg-white m-1 h-40 p-4 w-10;
+  @apply bg-white flex-1 flex items-center justify-center text-2xl uppercase font-extrabold;
 }
 
 .move {

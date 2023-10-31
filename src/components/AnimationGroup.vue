@@ -8,16 +8,19 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div id="animationGroup" class="border-red-600 border-2 relative">
+  <div
+    id="animationGroup"
+    class="border-2 border-t-0 border-slate-800 relative"
+  >
     <Elf
       :startX="70"
-      :startY="200"
+      :startY="150"
       :angle="-25"
       :active="props.pianoNot === 'e'"
     />
     <Elf
       :startX="70"
-      :startY="190"
+      :startY="140"
       :angle="25"
       :active="props.pianoNot === 'f'"
     />

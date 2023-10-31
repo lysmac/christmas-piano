@@ -4,6 +4,7 @@ import arrayToChars from "../arrayToChars";
 import Key from "../components/Key.vue";
 import decoder from "../decoder";
 import AnimationGroup from "./AnimationGroup.vue";
+import Instructions from "./Instructions.vue";
 
 type Note = {
   sound: string;
@@ -290,15 +291,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <AnimationGroup :pianoNot="activeKey" />
+  <div class="wrapper flex flex-col">
+    <Instructions />
+    <AnimationGroup :pianoNot="activeKey" />
 
-  <div class="flex flex-col gap-4 p-4">
-    <!-- <p>Keypress time is {{ keyPressTime }}</p> -->
-    <p class="text-xs">
-      Time between keypresses is {{ timeBetweenKeyPresses }}
-    </p>
-    <!-- <p class="text-xs">History: {{ history }}</p> -->
-    <div class="buttons flex justify-around text-sm">
+    <!-- <div class="buttons flex justify-around text-sm absolute bottom-0">
       <button
         @click="recordToggle = !recordToggle"
         class="bg-red-800 text-white rounded p-2"
@@ -307,23 +304,43 @@ onUnmounted(() => {
       </button>
       <button @click="playHistory()" class="bg-white p-2 rounded">
         Play from URL!
-      </button>
-      <button @click="clearHistory()" class="bg-white p-2 rounded">
+      </button> -->
+    <!-- <button @click="clearHistory()" class="bg-white p-2 rounded">
         Clear history
-      </button>
+      </button> -->
+    <!-- </div> -->
+    <!-- <div class="flex flex-col gap-4 p-4"> -->
+    <!-- <p>Keypress time is {{ keyPressTime }}</p> -->
+    <!-- <p class="text-xs">
+        Time between keypresses is {{ timeBetweenKeyPresses }}
+      </p> -->
+    <!-- <p class="text-xs">History: {{ history }}</p> -->
+    <!-- </div> -->
+
+    <div class="piano">
+      <ul class="text-black-500 flex gap-0.5 h-full">
+        <Key
+          v-for="key in piano"
+          :key="key.letter"
+          :letter="key.letter"
+          :isActive="activeKey === key.letter"
+          @click="handleClick(key)"
+        />
+      </ul>
     </div>
   </div>
-
-  <div class="bg-black px-2">
-    <ul class="text-black-500 flex justify-center">
-      <Key
-        v-for="key in piano"
-        :key="key.letter"
-        :letter="key.letter"
-        :sound="key.sound"
-        :active="activeKey === key.letter"
-        @click="handleClick(key)"
-      />
-    </ul>
-  </div>
 </template>
+
+<style scoped>
+.wrapper {
+  height: 90dvh;
+}
+
+.piano {
+  @apply bg-slate-800 border-2 border-t-0 border-slate-800 relative;
+  height: 30dvh;
+}
+.piano::before {
+  @apply content-[''] bg-[#295DF6] h-3 absolute top-0 left-0 w-full;
+}
+</style>
