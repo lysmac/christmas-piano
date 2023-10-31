@@ -62,7 +62,9 @@ const history = ref<Array<string | number>>([]);
 const activeKey = ref<string | null>(null);
 
 const keyPressTime = ref<number>(0);
-const previousKeyPressTime = ref<number | null>(null);
+
+// TODO: Outcommented because of deploy
+// const previousKeyPressTime = ref<number | null>(null);
 const timeBetweenKeyPresses = ref<number>(0);
 
 const recordToggle = ref(false);
@@ -305,7 +307,7 @@ onUnmounted(() => {
 
     <div class="piano">
       <div
-        class="buttons flex flex-col items-center text-lg absolute -top-28 w-full gap-1 z-50"
+        class="buttons flex flex-col items-center text-lg absolute -top-28 w-full gap-1 z-20"
       >
         <button
           @click="playHistory()"
