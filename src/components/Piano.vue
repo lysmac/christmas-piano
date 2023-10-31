@@ -295,20 +295,6 @@ onUnmounted(() => {
     <Instructions />
     <AnimationGroup :pianoNot="activeKey" />
 
-    <!-- <div class="buttons flex justify-around text-sm absolute bottom-0">
-      <button
-        @click="recordToggle = !recordToggle"
-        class="bg-red-800 text-white rounded p-2"
-      >
-        {{ recordToggle ? "Stop recording" : "Start recording" }}
-      </button>
-      <button @click="playHistory()" class="bg-white p-2 rounded">
-        Play from URL!
-      </button> -->
-    <!-- <button @click="clearHistory()" class="bg-white p-2 rounded">
-        Clear history
-      </button> -->
-    <!-- </div> -->
     <!-- <div class="flex flex-col gap-4 p-4"> -->
     <!-- <p>Keypress time is {{ keyPressTime }}</p> -->
     <!-- <p class="text-xs">
@@ -318,6 +304,25 @@ onUnmounted(() => {
     <!-- </div> -->
 
     <div class="piano">
+      <div
+        class="buttons flex flex-col items-center text-lg absolute -top-28 w-full gap-1 z-50"
+      >
+        <button
+          @click="playHistory()"
+          class="bg-white p-1 w-1/2 border-2 border-slate-800 uppercase font-extrabold"
+        >
+          ▶︎ Play song
+        </button>
+        <button
+          @click="recordToggle = !recordToggle"
+          class="bg-white p-1 w-1/2 border-2 border-slate-800 uppercase font-extrabold"
+        >
+          {{ recordToggle ? "Stop recording" : " 🔴 Record" }}
+        </button>
+        <!-- <button @click="clearHistory()" class="bg-white p-2 rounded">
+        Clear history
+      </button> -->
+      </div>
       <ul class="text-black-500 flex gap-0.5 h-full">
         <Key
           v-for="key in piano"
@@ -333,12 +338,12 @@ onUnmounted(() => {
 
 <style scoped>
 .wrapper {
-  height: 90dvh;
+  @apply h-full;
 }
 
 .piano {
-  @apply bg-slate-800 border-2 border-t-0 border-slate-800 relative;
-  height: 30dvh;
+  @apply bg-slate-800 border-2 border-t-0 border-slate-800 relative h-1/4;
+  /* height: 35dvh; */
 }
 .piano::before {
   @apply content-[''] bg-[#295DF6] h-3 absolute top-0 left-0 w-full;

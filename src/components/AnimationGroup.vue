@@ -10,7 +10,7 @@ const props = defineProps<{
 <template>
   <div
     id="animationGroup"
-    class="border-2 border-t-0 border-slate-800 relative"
+    class="border-2 border-t-0 border-slate-800 relative mt-16"
   >
     <Elf
       :startX="70"
@@ -38,8 +38,7 @@ const props = defineProps<{
 
 <style scoped>
 #animationGroup {
-  @apply bg-[url('../assets/images/background.svg')] bg-cover bg-center;
-  height: 70dvh;
+  @apply bg-[url('../assets/images/background.svg')] bg-cover bg-center h-3/4;
   overflow: hidden;
 }
 .bil {

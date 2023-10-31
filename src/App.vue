@@ -5,11 +5,13 @@ import Piano from "./components/Piano.vue";
 
 <template>
   <Header />
-  <div id="main" class="flex flex-col">
-    <div class="max-w-xl">
-      <Piano />
-    </div>
+  <div id="main" class="flex flex-col max-w-xl w-screen bg-yellow-400">
+    <Piano />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+#main {
+  height: 100vh;
+}
+</style>

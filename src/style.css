@@ -4,5 +4,5 @@
 
 body {
   @apply flex  items-center flex-col  bg-cover bg-center m-0 p-0;
-  height: 100dvh;
+  height: 100vh;
 }
