@@ -63,13 +63,11 @@ const activeKey = ref<string | null>(null);
 
 const keyPressTime = ref<number>(0);
 
-// TODO: Outcommented because of deploy
-// const previousKeyPressTime = ref<number | null>(null);
 const timeBetweenKeyPresses = ref<number>(0);
 
 const recordToggle = ref(false);
 
-function handleClick(clickedKey: any) {
+function handleClick(clickedKey: Note) {
   activeKey.value = clickedKey.letter;
   // playNote(clickedKey.letter);
   playSound(clickedKey.letter);
@@ -92,7 +90,7 @@ function handleClick(clickedKey: any) {
 
   setTimeout(() => {
     activeKey.value = "";
-  }, 140);
+  }, 125);
 }
 
 const handleKeyPress = (event: KeyboardEvent) => {
@@ -125,7 +123,7 @@ function playHistory() {
 
       setTimeout(() => {
         activeKey.value = "";
-      }, 140);
+      }, 125);
     }, delay);
 
     // Ändra till 250 för gamla
@@ -141,7 +139,6 @@ function playHistory() {
 
 // function clearHistory() {
 //   history.value = [];
-//   previousKeyPressTime.value = null;
 //   window.history.replaceState(null, "", "/");
 //   recordToggle.value = false;
 // }

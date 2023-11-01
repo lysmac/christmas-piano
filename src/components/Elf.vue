@@ -15,7 +15,7 @@ watchEffect(() => {
     isAnimating.value = true;
     setTimeout(() => {
       isAnimating.value = false;
-    }, 250);
+    }, 125);
   }
 });
 </script>
@@ -28,7 +28,7 @@ watchEffect(() => {
     xmlns:xlink="http://www.w3.org/1999/xlink"
     :viewBox="`${startX} ${startY} 390 644`"
     :style="{ transform: `rotate(${props.angle}deg)` }"
-    class="z-10 absolute"
+    class="absolute z-10"
   >
     <g :class="isAnimating ? 'peek' : ''">
       <image
@@ -51,10 +51,10 @@ watchEffect(() => {
 
 <style scoped>
 .peek {
-  animation: bounce 0.25s;
+  animation: bounce 0.125s;
 }
 .wiggle {
-  animation: rotate 0.25s;
+  animation: rotate 0.125s;
   transform-origin: 64% 56%;
 }
 
