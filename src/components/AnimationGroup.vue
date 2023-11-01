@@ -10,7 +10,7 @@ const props = defineProps<{
 <template>
   <div
     id="animationGroup"
-    class="border-2 border-t-0 border-slate-800 relative mt-16"
+    class="relative mt-16 border-2 border-t-0 border-slate-800"
   >
     <Elf
       :startX="70"
@@ -61,7 +61,7 @@ const props = defineProps<{
 
 <style scoped>
 #animationGroup {
-  @apply bg-[url('../assets/images/background.svg')] bg-cover bg-center h-3/4;
+  @apply h-3/4 bg-[url('../assets/images/background.svg')] bg-cover bg-center;
   overflow: hidden;
 }
 
@@ -75,10 +75,10 @@ const props = defineProps<{
 @keyframes wave-animation {
   0%,
   100% {
-    @apply right-12 bottom-20;
+    @apply bottom-20 right-12;
   }
   50% {
-    @apply right-4 bottom-20;
+    @apply bottom-20 right-4;
   }
 }
 

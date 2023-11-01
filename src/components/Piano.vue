@@ -274,9 +274,8 @@ onMounted(async () => {
     try {
       const response = await fetch(sound.sound);
       const audioData = await response.arrayBuffer();
-      audioBuffers.value[sound.letter] = await audioContext.decodeAudioData(
-        audioData
-      );
+      audioBuffers.value[sound.letter] =
+        await audioContext.decodeAudioData(audioData);
     } catch (e) {
       console.error(`Error fetching or decoding ${sound.letter}`, e);
       audioBuffers.value[sound.letter] = null;
@@ -307,17 +306,17 @@ onUnmounted(() => {
 
     <div class="piano">
       <div
-        class="buttons flex flex-col items-center text-lg absolute -top-28 w-full gap-1 z-20"
+        class="buttons absolute -top-28 z-20 flex w-full flex-col items-center gap-1 text-lg"
       >
         <button
           @click="playHistory()"
-          class="bg-white p-1 w-1/2 border-2 border-slate-800 uppercase font-extrabold"
+          class="w-1/2 border-2 border-slate-800 bg-white p-1 font-extrabold uppercase"
         >
           ▶︎ Play song
         </button>
         <button
           @click="recordToggle = !recordToggle"
-          class="bg-white p-1 w-1/2 border-2 border-slate-800 uppercase font-extrabold"
+          class="w-1/2 border-2 border-slate-800 bg-white p-1 font-extrabold uppercase"
         >
           {{ recordToggle ? "Stop recording" : " 🔴 Record" }}
         </button>
@@ -325,7 +324,7 @@ onUnmounted(() => {
         Clear history
       </button> -->
       </div>
-      <ul class="text-black-500 flex gap-0.5 h-full">
+      <ul class="text-black-500 flex h-full gap-0.5">
         <Key
           v-for="key in piano"
           :key="key.letter"
@@ -344,10 +343,10 @@ onUnmounted(() => {
 }
 
 .piano {
-  @apply bg-slate-800 border-2 border-t-0 border-slate-800 relative h-1/4;
+  @apply relative h-1/4 border-2 border-t-0 border-slate-800 bg-slate-800;
   /* height: 35dvh; */
 }
 .piano::before {
-  @apply content-[''] bg-[#295DF6] h-3 absolute top-0 left-0 w-full;
+  @apply absolute left-0 top-0 h-3 w-full bg-[#295DF6] content-[''];
 }
 </style>
