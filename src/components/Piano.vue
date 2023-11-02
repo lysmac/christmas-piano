@@ -137,11 +137,20 @@ function playHistory() {
   }
 }
 
-// function clearHistory() {
-//   history.value = [];
-//   window.history.replaceState(null, "", "/");
-//   recordToggle.value = false;
-// }
+function clearHistory() {
+  history.value = [];
+  window.history.replaceState(null, "", "/");
+}
+
+function recording() {
+  if (!recordToggle.value) {
+    clearHistory();
+    recordToggle.value = true;
+  } else if (recordToggle.value) {
+    recordToggle.value = false;
+  }
+}
+
 const audioContext = new (window.AudioContext || window.AudioContext)();
 const audioBuffers = ref<{ [key: string]: AudioBuffer | null }>({});
 
@@ -156,109 +165,6 @@ const playSound = (soundId: string) => {
 };
 
 watchEffect(() => {
-  // remove this later, test array with manual input
-  // const theNextEpisode = [
-  //   "0",
-  //   "d",
-  //   "1100",
-  //   "a",
-  //   "1100",
-  //   "a",
-  //   "500",
-  //   "g",
-  //   "500",
-  //   "a",
-  //   "1100",
-  //   "g",
-  //   "500",
-  //   "f",
-  //   "500",
-  //   "g",
-  //   "1100",
-  //   "g",
-  //   "500",
-  //   "f",
-  //   "500",
-  //   "d",
-  //   "500",
-  //   "f",
-  //   "500",
-  //   "d",
-  //   "1100",
-  //   "a",
-  //   "1100",
-  //   "a",
-  //   "500",
-  //   "g",
-  //   "500",
-  //   "a",
-  //   "1100",
-  //   "g",
-  //   "500",
-  //   "f",
-  //   "500",
-  //   "g",
-  //   "1100",
-  //   "g",
-  //   "500",
-  //   "f",
-  //   "500",
-  //   "d",
-  //   "500",
-  //   "f",
-  //   "1100",
-  //   "d",
-  //   "1100",
-  //   "a",
-  //   "1100",
-  //   "a",
-  //   "500",
-  //   "g",
-  //   "500",
-  //   "a",
-  //   "1100",
-  //   "g",
-  //   "500",
-  //   "f",
-  //   "500",
-  //   "g",
-  //   "1100",
-  //   "g",
-  //   "500",
-  //   "f",
-  //   "500",
-  //   "d",
-  //   "500",
-  //   "f",
-  //   "500",
-  //   "d",
-  //   "1100",
-  //   "a",
-  //   "1100",
-  //   "a",
-  //   "500",
-  //   "g",
-  //   "500",
-  //   "a",
-  //   "1100",
-  //   "g",
-  //   "500",
-  //   "f",
-  //   "500",
-  //   "g",
-  //   "1100",
-  //   "g",
-  //   "500",
-  //   "f",
-  //   "500",
-  //   "d",
-  //   "500",
-  //   "f",
-  //   "1100",
-  // ];
-  // const spela = arrayToChars(theNextEpisode);
-  // window.history.replaceState(null, "", spela);
-
   if (!recordToggle.value && history.value.length > 0) {
     history.value.push(0);
     const shorterString = arrayToChars(history.value);
@@ -312,7 +218,7 @@ onUnmounted(() => {
           ▶︎ Play song
         </button>
         <button
-          @click="recordToggle = !recordToggle"
+          @click="recording()"
           class="w-1/2 border-2 border-slate-800 bg-white p-1 font-extrabold uppercase"
         >
           {{ recordToggle ? "Stop recording" : " 🔴 Record" }}

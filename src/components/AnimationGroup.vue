@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Background from "./Background.vue";
 import Elf from "./Elf.vue";
 import Van from "./Van.vue";
 
@@ -12,6 +13,7 @@ const props = defineProps<{
     id="animationGroup"
     class="relative mt-16 border-2 border-t-0 border-slate-800"
   >
+    <Background />
     <Elf
       :startX="70"
       :startY="150"
@@ -61,7 +63,7 @@ const props = defineProps<{
 
 <style scoped>
 #animationGroup {
-  @apply h-3/4 bg-[url('../assets/images/background.svg')] bg-cover bg-center;
+  @apply h-3/4;
   overflow: hidden;
 }
 
