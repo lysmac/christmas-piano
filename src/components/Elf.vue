@@ -19,7 +19,7 @@ watchEffect(() => {
     isAnimating.value = true;
     setTimeout(() => {
       isAnimating.value = false;
-    }, 1500);
+    }, 1300);
   }
 });
 
@@ -64,7 +64,7 @@ watchEffect(() => {
 
 <style scoped>
 .peek {
-  animation: bounce 1.5s;
+  animation: bounce 1.3s;
 }
 .wiggle {
   animation: rotate 0.25s;
