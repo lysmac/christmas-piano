@@ -69,7 +69,6 @@ const recordToggle = ref(false);
 
 function handleClick(clickedKey: Note) {
   activeKey.value = clickedKey.letter;
-  // playNote(clickedKey.letter);
   playSound(clickedKey.letter);
 
   if (keyPressTime.value === 0) {
@@ -88,15 +87,12 @@ function handleClick(clickedKey: Note) {
     keyPressTime.value = Date.now();
   }
 
-  setTimeout(() => {
-    activeKey.value = "";
-  }, 125);
+  setTimeout(resetKey, 1000 / 8); // beats per second
 }
 
 const handleKeyPress = (event: KeyboardEvent) => {
   const found = piano.find((object) => object.number === event.key);
-  if (!found) return;
-  handleClick(found);
+  if (found) handleClick(found);
 };
 
 function resetKey() {
@@ -118,7 +114,6 @@ function playHistory() {
 
     setTimeout(() => {
       playSound(matchedNote.letter);
-      // playNote(matchedNote.letter);
       activeKey.value = matchedNote.letter;
 
       setTimeout(() => {

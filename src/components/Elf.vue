@@ -11,15 +11,19 @@ const props = defineProps({
 const isAnimating = ref(false);
 const isWaving = ref(false);
 
+let animationTimeout: number | null = null;
+
 watchEffect(() => {
   if (props.active) {
-    if (isAnimating.value) {
-      return;
+    if (animationTimeout) {
+      clearTimeout(animationTimeout);
     }
+
     isAnimating.value = true;
-    setTimeout(() => {
+
+    animationTimeout = setTimeout(() => {
       isAnimating.value = false;
-    }, 1300);
+    }, 1250);
   }
 });
 
@@ -43,7 +47,7 @@ watchEffect(() => {
     :style="{ transform: `rotate(${props.angle}deg)` }"
     class="absolute z-10"
   >
-    <g :class="isAnimating ? 'peek' : ''">
+    <g class="elfstuff" :class="isAnimating ? 'peektwo' : ''">
       <image
         width="122"
         height="187"
@@ -65,6 +69,13 @@ watchEffect(() => {
 <style scoped>
 .peek {
   animation: bounce 1.3s;
+}
+
+.elfstuff {
+  transition: transform 1s ease-out;
+}
+.peektwo {
+  transform: translateY(-80px);
 }
 .wiggle {
   animation: rotate 0.25s;
