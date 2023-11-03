@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watchEffect } from "vue";
-import arrayToChars from "../arrayToChars";
 import Key from "../components/Key.vue";
-import decoder from "../decoder";
+import { Encryption } from "../encryption"; // Import the Encryption class
 import AnimationGroup from "./AnimationGroup.vue";
 import Instructions from "./Instructions.vue";
 
@@ -103,7 +102,7 @@ function playHistory() {
   let url = new URL(window.location.href);
   let decrypted = "";
 
-  [...url.pathname].forEach((c) => (decrypted += decoder(c)));
+  [...url.pathname].forEach((c) => (decrypted += Encryption.decrypt(c)));
 
   let delay = 1000; // Start playing delay
   for (let i = 0; i < decrypted.length; i++) {
@@ -162,7 +161,7 @@ const playSound = (soundId: string) => {
 watchEffect(() => {
   if (!recordToggle.value && history.value.length > 0) {
     history.value.push(0);
-    const shorterString = arrayToChars(history.value);
+    const shorterString = Encryption.encrypt(history.value);
     window.history.replaceState(null, "", shorterString);
   }
 });
