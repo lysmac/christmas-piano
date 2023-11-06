@@ -178,7 +178,7 @@ watchEffect(() => {
   if (!recordToggle.value && history.value.length > 0) {
     history.value.push(0);
     const shorterString = Encryption.encrypt(history.value);
-    const shortString = Encryption.kryptera(newHistory);
+    // const shortString = Encryption.kryptera(newHistory);
     window.history.replaceState(null, "", shorterString);
   }
 });
