@@ -214,7 +214,6 @@ onUnmounted(() => {
       <div
         class="buttons absolute -top-28 z-20 flex w-full flex-col items-center gap-1 text-lg"
       >
-        History: {{ newHistory }}
         <button
           @click="playHistory()"
           class="w-1/2 border-2 border-slate-800 bg-white p-1 font-extrabold uppercase"

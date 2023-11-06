@@ -38,7 +38,7 @@ watchEffect(() => {
 
     wiggleTimeout = setTimeout(() => {
       isWaving.value = false;
-    }, 250);
+    }, 200);
   }
 });
 </script>
