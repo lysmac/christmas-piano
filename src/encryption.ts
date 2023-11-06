@@ -1,3 +1,5 @@
+import { History } from "./components/Piano.vue";
+
 const availableNotes = ["a", "b", "c", "d", "e", "f", "g"];
 const onePauseNotes = ["h", "i", "j", "k", "l", "m", "n"];
 const twoPauseNotes = ["A", "B", "C", "D", "E", "F", "G"];
@@ -12,6 +14,10 @@ export class Encryption {
     const encryptedMessage = arrayToChars(history);
     return encryptedMessage;
   }
+  public static kryptera(history: History[]): string {
+    const encryptedMessage = test(history);
+    return encryptedMessage;
+  }
 
   public static decrypt(char: string) {
     const decryptedMessage = decoder(char);
@@ -19,15 +25,73 @@ export class Encryption {
   }
 }
 
+const tempoInMs = 125;
+
+function test(history: History[]) {
+  const allNotes = [
+    availableNotes,
+    onePauseNotes,
+    twoPauseNotes,
+    threePauseNotes,
+    fourPauseNotes,
+    fivePauseNotes,
+    sixPauseNotes,
+    sevenPauseNotes,
+  ];
+
+  const resultArray: string[] = [];
+  const flattenedHistory = history.flatMap((item) => [item.time, item.note]);
+
+  flattenedHistory.shift();
+  flattenedHistory.push(0);
+
+  for (let i = 0; i < flattenedHistory.length; i += 2) {
+    const note = flattenedHistory[i] as string;
+    let pause = flattenedHistory[i + 1] as number;
+
+    const noteIndex = allNotes[0].indexOf(note);
+
+    console.log("noteIndex", noteIndex);
+    let semicolons = "";
+    while (pause >= tempoInMs * 8) {
+      semicolons += ";";
+      pause -= tempoInMs * 8;
+    }
+
+    if (pause <= tempoInMs + tempoInMs / 2) {
+      resultArray.push(availableNotes[noteIndex]);
+    } else if (pause <= tempoInMs * 2 + tempoInMs / 2) {
+      resultArray.push(onePauseNotes[noteIndex]);
+    } else if (pause <= tempoInMs * 3 + tempoInMs / 2) {
+      resultArray.push(twoPauseNotes[noteIndex]);
+    } else if (pause <= tempoInMs * 4 + tempoInMs / 2) {
+      resultArray.push(threePauseNotes[noteIndex]);
+    } else if (pause <= tempoInMs * 5 + tempoInMs / 2) {
+      resultArray.push(fourPauseNotes[noteIndex]);
+    } else if (pause <= tempoInMs * 6 + tempoInMs / 2) {
+      resultArray.push(fivePauseNotes[noteIndex]);
+    } else if (pause <= tempoInMs * 7 + tempoInMs / 2) {
+      resultArray.push(sixPauseNotes[noteIndex]);
+    } else if (pause > tempoInMs * 8 + tempoInMs / 2) {
+      resultArray.push(sevenPauseNotes[noteIndex]);
+    }
+
+    resultArray.push(semicolons);
+  }
+  console.log("testfunction:", resultArray.join(""));
+  return resultArray.join("");
+}
+
 function arrayToChars(history: (string | number)[]): string {
-  const availableNotes = ["a", "b", "c", "d", "e", "f", "g"];
-  const onePauseNotes = ["h", "i", "j", "k", "l", "m", "n"];
-  const twoPauseNotes = ["A", "B", "C", "D", "E", "F", "G"];
-  const threePauseNotes = ["H", "I", "J", "K", "L", "M", "N"];
-  const fourPauseNotes = ["o", "p", "q", "r", "s", "t", "u"];
-  const fivePauseNotes = ["O", "P", "Q", "R", "S", "T", "U"];
-  const sixPauseNotes = ["v", "w", "x", "y", "z", "å", "ä"];
-  const sevenPauseNotes = ["V", "W", "X", "Y", "Z", "Å", "Ä"];
+  // const availableNotes = ["a", "b", "c", "d", "e", "f", "g"];
+  // const onePauseNotes = ["h", "i", "j", "k", "l", "m", "n"];
+  // const twoPauseNotes = ["A", "B", "C", "D", "E", "F", "G"];
+  // const threePauseNotes = ["H", "I", "J", "K", "L", "M", "N"];
+  // const fourPauseNotes = ["o", "p", "q", "r", "s", "t", "u"];
+  // const fivePauseNotes = ["O", "P", "Q", "R", "S", "T", "U"];
+  // const sixPauseNotes = ["v", "w", "x", "y", "z", "å", "ä"];
+  // const sevenPauseNotes = ["V", "W", "X", "Y", "Z", "Å", "Ä"];
+  console.log("arrayToChars input:", history);
 
   const resultArray: string[] = [];
 
@@ -37,14 +101,11 @@ function arrayToChars(history: (string | number)[]): string {
 
     const noteIndex = availableNotes.indexOf(note);
 
-    // Byt till 250 om 250ms
-    const tempo = 125;
-
     // Om 250 ms, ändra till 8
     let semicolons = "";
-    while (pause >= tempo * 8) {
+    while (pause >= tempoInMs * 8) {
       semicolons += ";";
-      pause -= tempo * 8;
+      pause -= tempoInMs * 8;
     }
 
     // Intervall (inkl. min delay mellan noter):
@@ -63,39 +124,39 @@ function arrayToChars(history: (string | number)[]): string {
     // 812,5 - 937,5 = 875
     // 937,5 - 1000 = 1000
 
-    if (pause <= tempo + tempo / 2) {
+    if (pause <= tempoInMs + tempoInMs / 2) {
       resultArray.push(availableNotes[noteIndex]);
-    } else if (pause <= tempo * 2 + tempo / 2) {
+    } else if (pause <= tempoInMs * 2 + tempoInMs / 2) {
       resultArray.push(onePauseNotes[noteIndex]);
-    } else if (pause <= tempo * 3 + tempo / 2) {
+    } else if (pause <= tempoInMs * 3 + tempoInMs / 2) {
       resultArray.push(twoPauseNotes[noteIndex]);
-    } else if (pause <= tempo * 4 + tempo / 2) {
+    } else if (pause <= tempoInMs * 4 + tempoInMs / 2) {
       resultArray.push(threePauseNotes[noteIndex]);
-    } else if (pause <= tempo * 5 + tempo / 2) {
+    } else if (pause <= tempoInMs * 5 + tempoInMs / 2) {
       resultArray.push(fourPauseNotes[noteIndex]);
-    } else if (pause <= tempo * 6 + tempo / 2) {
+    } else if (pause <= tempoInMs * 6 + tempoInMs / 2) {
       resultArray.push(fivePauseNotes[noteIndex]);
-    } else if (pause <= tempo * 7 + tempo / 2) {
+    } else if (pause <= tempoInMs * 7 + tempoInMs / 2) {
       resultArray.push(sixPauseNotes[noteIndex]);
-    } else if (pause > tempo * 8 + tempo / 2) {
+    } else if (pause > tempoInMs * 8 + tempoInMs / 2) {
       resultArray.push(sevenPauseNotes[noteIndex]);
     }
 
     // Om man vill köra 250ms istället för det ovan
 
-    // if (pause <= tempo + tempo / 2) {
+    // if (pause <= tempoInMs + tempoInMs / 2) {
     //   resultArray.push(availableNotes[noteIndex]);
-    // } else if (pause <= tempo * 2 + tempo / 2) {
+    // } else if (pause <= tempoInMs * 2 + tempoInMs / 2) {
     //   resultArray.push(onePauseNotes[noteIndex]);
-    // } else if (pause <= tempo * 3 + tempo / 2) {
+    // } else if (pause <= tempoInMs * 3 + tempoInMs / 2) {
     //   resultArray.push(twoPauseNotes[noteIndex]);
-    // } else if (pause > tempo * 3 + tempo / 2) {
+    // } else if (pause > tempoInMs * 3 + tempoInMs / 2) {
     //   resultArray.push(threePauseNotes[noteIndex]);
     // }
 
     resultArray.push(semicolons);
   }
-
+  console.log("old function:", resultArray.join(""));
   return resultArray.join("");
 }
 

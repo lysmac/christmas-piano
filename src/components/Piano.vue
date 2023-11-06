@@ -56,6 +56,13 @@ const piano: Note[] = [
   },
 ];
 
+export type History = {
+  time: number;
+  note: string;
+};
+
+const newHistory: History[] = [];
+
 const history = ref<Array<string | number>>([]);
 
 const activeKey = ref<string | null>(null);
@@ -74,12 +81,20 @@ function handleClick(clickedKey: Note) {
     keyPressTime.value = Date.now();
 
     if (recordToggle.value) {
+      newHistory.push({
+        time: 0,
+        note: clickedKey.letter,
+      });
       history.value.push(0);
       history.value.push(clickedKey.letter);
     }
   } else {
     timeBetweenKeyPresses.value = Date.now() - keyPressTime.value;
     if (recordToggle.value) {
+      newHistory.push({
+        time: timeBetweenKeyPresses.value,
+        note: clickedKey.letter,
+      });
       history.value.push(timeBetweenKeyPresses.value);
       history.value.push(clickedKey.letter);
     }
@@ -133,6 +148,7 @@ function playHistory() {
 
 function clearHistory() {
   history.value = [];
+  newHistory.length = 0;
   window.history.replaceState(null, "", "/");
 }
 
@@ -162,6 +178,7 @@ watchEffect(() => {
   if (!recordToggle.value && history.value.length > 0) {
     history.value.push(0);
     const shorterString = Encryption.encrypt(history.value);
+    const shortString = Encryption.kryptera(newHistory);
     window.history.replaceState(null, "", shorterString);
   }
 });
@@ -193,18 +210,11 @@ onUnmounted(() => {
     <Instructions />
     <AnimationGroup :pianoNot="activeKey" />
 
-    <!-- <div class="flex flex-col gap-4 p-4"> -->
-    <!-- <p>Keypress time is {{ keyPressTime }}</p> -->
-    <!-- <p class="text-xs">
-        Time between keypresses is {{ timeBetweenKeyPresses }}
-      </p> -->
-    <!-- <p class="text-xs">History: {{ history }}</p> -->
-    <!-- </div> -->
-
     <div class="piano">
       <div
         class="buttons absolute -top-28 z-20 flex w-full flex-col items-center gap-1 text-lg"
       >
+        History: {{ newHistory }}
         <button
           @click="playHistory()"
           class="w-1/2 border-2 border-slate-800 bg-white p-1 font-extrabold uppercase"
