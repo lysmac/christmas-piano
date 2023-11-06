@@ -33,12 +33,11 @@ watchEffect(() => {
     if (wiggleTimeout) {
       clearTimeout(wiggleTimeout);
     }
-
     isWaving.value = true;
 
     wiggleTimeout = setTimeout(() => {
       isWaving.value = false;
-    }, 200);
+    }, 125);
   }
 });
 </script>
@@ -85,7 +84,7 @@ watchEffect(() => {
 }
 
 .wave {
-  animation: rotate 0.25s;
+  animation: rotate 1s;
 }
 
 @keyframes rotate {
