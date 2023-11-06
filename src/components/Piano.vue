@@ -13,43 +13,43 @@ type Note = {
 };
 const piano: Note[] = [
   {
-    sound: "/sounds/c.wav",
+    sound: "/sounds/glockenspiel/c.wav",
     letter: "c",
     keycode: 65,
     number: "1",
   },
   {
-    sound: "/sounds/d.wav",
+    sound: "/sounds/glockenspiel/d.wav",
     letter: "d",
     keycode: 83,
     number: "2",
   },
   {
-    sound: "/sounds/e.wav",
+    sound: "/sounds/glockenspiel/e.wav",
     letter: "e",
     keycode: 68,
     number: "3",
   },
   {
-    sound: "/sounds/f.wav",
+    sound: "/sounds/glockenspiel/f.wav",
     letter: "f",
     keycode: 70,
     number: "4",
   },
   {
-    sound: "/sounds/g.wav",
+    sound: "/sounds/glockenspiel/g.wav",
     letter: "g",
     keycode: 71,
     number: "5",
   },
   {
-    sound: "/sounds/a.wav",
+    sound: "/sounds/glockenspiel/a.wav",
     letter: "a",
     keycode: 72,
     number: "6",
   },
   {
-    sound: "/sounds/b.wav",
+    sound: "/sounds/glockenspiel/b.wav",
     letter: "b",
     keycode: 74,
     number: "7",
