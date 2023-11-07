@@ -73,6 +73,9 @@ const timeBetweenKeyPresses = ref<number>(0);
 
 const recordToggle = ref(false);
 
+const isPlaying = ref(false);
+let playbackTimeouts: number[] = [];
+
 function handleClick(clickedKey: Note) {
   activeKey.value = clickedKey.letter;
   playSound(clickedKey.letter);
@@ -114,6 +117,15 @@ function resetKey() {
 }
 
 function playHistory() {
+  if (isPlaying.value) {
+    playbackTimeouts.forEach(clearTimeout);
+    playbackTimeouts.length = 0;
+    isPlaying.value = false;
+    return;
+  }
+
+  isPlaying.value = true;
+
   let url = new URL(window.location.href);
   let decrypted = "";
 
@@ -126,14 +138,16 @@ function playHistory() {
 
     if (!matchedNote) continue;
 
-    setTimeout(() => {
-      playSound(matchedNote.letter);
-      activeKey.value = matchedNote.letter;
-
+    playbackTimeouts.push(
       setTimeout(() => {
-        activeKey.value = "";
-      }, 125);
-    }, delay);
+        playSound(matchedNote.letter);
+        activeKey.value = matchedNote.letter;
+
+        setTimeout(() => {
+          activeKey.value = "";
+        }, 125);
+      }, delay),
+    );
 
     // Ändra till 250 för gamla
     delay += 125;
@@ -144,6 +158,12 @@ function playHistory() {
       i++;
     }
   }
+  playbackTimeouts.push(
+    setTimeout(() => {
+      isPlaying.value = false;
+      playbackTimeouts.length = 0;
+    }, delay),
+  );
 }
 
 function clearHistory() {
@@ -218,7 +238,7 @@ onUnmounted(() => {
           @click="playHistory()"
           class="w-1/2 border-2 border-slate-800 bg-white p-1 font-extrabold uppercase"
         >
-          ▶︎ Play song
+          {{ isPlaying ? "Stop song" : "▶︎ Play song" }}
         </button>
         <button
           @click="recording()"

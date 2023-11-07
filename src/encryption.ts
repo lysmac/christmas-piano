@@ -40,8 +40,8 @@ function test(history: History[]) {
   ];
 
   const resultArray: string[] = [];
-  const flattenedHistory = history.flatMap((item) => [item.time, item.note]);
 
+  const flattenedHistory = history.flatMap((item) => [item.time, item.note]);
   flattenedHistory.shift();
   flattenedHistory.push(0);
 
@@ -50,8 +50,10 @@ function test(history: History[]) {
     let pause = flattenedHistory[i + 1] as number;
 
     const noteIndex = allNotes[0].indexOf(note);
+    if (noteIndex === -1) {
+      continue;
+    }
 
-    console.log("noteIndex", noteIndex);
     let semicolons = "";
     while (pause >= tempoInMs * 8) {
       semicolons += ";";
