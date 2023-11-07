@@ -195,8 +195,7 @@ const playSound = (soundId: string) => {
 watch(recordToggle, (val, oldVal) => {
   if (oldVal) {
     history.value.push(0);
-    const shorterString = Encryption.encrypt(history.value);
-    // const shortString = Encryption.kryptera(newHistory);
+    const shorterString = Encryption.encrypt(newHistory);
     window.history.replaceState(null, "", shorterString);
   }
   if (val) {
