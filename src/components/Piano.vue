@@ -2,6 +2,7 @@
 import { onMounted, onUnmounted, ref, watchEffect } from "vue";
 import Key from "../components/Key.vue";
 import { Encryption } from "../encryption"; // Import the Encryption class
+import { unmute } from "../unmute.js";
 import AnimationGroup from "./AnimationGroup.vue";
 import Instructions from "./Instructions.vue";
 
@@ -181,8 +182,14 @@ function recording() {
   }
 }
 
-const audioContext = new (window.AudioContext || window.AudioContext)();
+const audioContext = new (window.AudioContext ||
+  (window as any).webkitAudioContext)();
 const audioBuffers = ref<{ [key: string]: AudioBuffer | null }>({});
+
+// These are a part of the unmute.js safari mute toggle-fix
+let allowBackgroundPlayback = false;
+let forceIOSBehavior = false;
+unmute(audioContext, allowBackgroundPlayback, forceIOSBehavior);
 
 const playSound = (soundId: string) => {
   const buffer = audioBuffers.value[soundId];
