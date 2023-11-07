@@ -178,32 +178,12 @@ function decoder(char: string) {
   );
 
   const foundIndex = noteIndices.findIndex((index) => index !== -1);
-
   if (foundIndex === 0) {
     return char;
   }
-  if (foundIndex === 1) {
-    return availableNotes[noteIndices[1]] + 1;
+  if (foundIndex >= 1 && foundIndex <= 7) {
+    return availableNotes[noteIndices[foundIndex]] + foundIndex;
   }
-  if (foundIndex === 2) {
-    return availableNotes[noteIndices[2]] + 2;
-  }
-  if (foundIndex === 3) {
-    return availableNotes[noteIndices[3]] + 3;
-  }
-  if (foundIndex === 4) {
-    return availableNotes[noteIndices[4]] + 4;
-  }
-  if (foundIndex === 5) {
-    return availableNotes[noteIndices[5]] + 5;
-  }
-  if (foundIndex === 6) {
-    return availableNotes[noteIndices[6]] + 6;
-  }
-  if (foundIndex === 7) {
-    return availableNotes[noteIndices[7]] + 7;
-  }
-
   if (char === ";") {
     return 8;
   }
