@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watchEffect } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import Key from "../components/Key.vue";
 import { Encryption } from "../encryption"; // Import the Encryption class
 import { unmute } from "../unmute.js";
@@ -75,7 +75,7 @@ const timeBetweenKeyPresses = ref<number>(0);
 const recordToggle = ref(false);
 
 const isPlaying = ref(false);
-let playbackTimeouts: number[] = [];
+const playbackTimeouts: number[] = [];
 
 function handleClick(clickedKey: Note) {
   activeKey.value = clickedKey.letter;
@@ -173,15 +173,6 @@ function clearHistory() {
   window.history.replaceState(null, "", "/");
 }
 
-function recording() {
-  if (!recordToggle.value) {
-    clearHistory();
-    recordToggle.value = true;
-  } else if (recordToggle.value) {
-    recordToggle.value = false;
-  }
-}
-
 const audioContext = new (window.AudioContext ||
   (window as any).webkitAudioContext)();
 const audioBuffers = ref<{ [key: string]: AudioBuffer | null }>({});
@@ -201,12 +192,15 @@ const playSound = (soundId: string) => {
   source.start();
 };
 
-watchEffect(() => {
-  if (!recordToggle.value && history.value.length > 0) {
+watch(recordToggle, (val, oldVal) => {
+  if (oldVal) {
     history.value.push(0);
     const shorterString = Encryption.encrypt(history.value);
     // const shortString = Encryption.kryptera(newHistory);
     window.history.replaceState(null, "", shorterString);
+  }
+  if (val) {
+    clearHistory();
   }
 });
 
@@ -248,7 +242,7 @@ onUnmounted(() => {
           {{ isPlaying ? "Stop song" : "▶︎ Play song" }}
         </button>
         <button
-          @click="recording()"
+          @click="recordToggle = !recordToggle"
           class="w-1/2 border-2 border-slate-800 bg-white p-1 font-extrabold uppercase"
         >
           {{ recordToggle ? "Stop recording" : " 🔴 Record" }}
