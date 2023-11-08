@@ -78,6 +78,9 @@ const isPlaying = ref(false);
 const playbackTimeouts: number[] = [];
 
 const tempo = 125;
+// This is the default melody that will play if you visit the site without a melody in the URL
+// The current string is Jingle Bells
+const defaultMelody = "EESEESEGCDZFFMmFEEEeEDDEyg";
 
 function handleClick(clickedKey: Note) {
   activeKey.value = clickedKey.letter;
@@ -107,7 +110,7 @@ function handleClick(clickedKey: Note) {
     keyPressTime.value = Date.now();
   }
 
-  setTimeout(resetKey, tempo); // beats per second
+  setTimeout(resetKey, tempo);
 }
 
 const handleKeyPress = (event: KeyboardEvent) => {
@@ -132,6 +135,10 @@ function playHistory() {
   let url = new URL(window.location.href);
   let decrypted = "";
 
+  console.log(url.pathname);
+  if (url.pathname === "/") {
+    url.pathname = defaultMelody;
+  }
   [...url.pathname].forEach((c) => (decrypted += Encryption.decrypt(c)));
 
   let delay = 0; // Start playing delay
@@ -243,6 +250,7 @@ onUnmounted(() => {
           {{ isPlaying ? "Stop song" : "▶︎ Play song" }}
         </button>
         <button
+          :disabled="isPlaying"
           @click="recordToggle = !recordToggle"
           class="w-1/2 border-2 border-slate-800 bg-white p-1 font-extrabold uppercase"
         >
