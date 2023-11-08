@@ -135,7 +135,6 @@ function playHistory() {
   let url = new URL(window.location.href);
   let decrypted = "";
 
-  console.log(url.pathname);
   if (url.pathname === "/") {
     url.pathname = defaultMelody;
   }
