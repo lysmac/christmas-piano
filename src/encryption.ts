@@ -67,7 +67,6 @@ function encryptData(history: History[]) {
 
     resultArray.push(semicolons);
   }
-  console.log("testfunction:", resultArray.join(""));
   return resultArray.join("");
 }
 
