@@ -132,7 +132,7 @@ function playHistory() {
 
   [...url.pathname].forEach((c) => (decrypted += Encryption.decrypt(c)));
 
-  let delay = 1000; // Start playing delay
+  let delay = 0; // Start playing delay
   for (let i = 0; i < decrypted.length; i++) {
     const char = decrypted[i];
     const matchedNote = piano.find((object) => object.letter === char);
