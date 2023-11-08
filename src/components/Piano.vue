@@ -189,6 +189,9 @@ let forceIOSBehavior = false;
 unmute(audioContext, allowBackgroundPlayback, forceIOSBehavior);
 
 const playSound = (soundId: string) => {
+  if (audioContext.state === "suspended") {
+    audioContext.resume();
+  }
   if (!soundId) return;
 
   const buffer = audioBuffers.value[soundId];
