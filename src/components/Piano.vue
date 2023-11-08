@@ -77,6 +77,8 @@ const recordToggle = ref(false);
 const isPlaying = ref(false);
 const playbackTimeouts: number[] = [];
 
+const tempo = 125;
+
 function handleClick(clickedKey: Note) {
   activeKey.value = clickedKey.letter;
   playSound(clickedKey.letter);
@@ -105,7 +107,7 @@ function handleClick(clickedKey: Note) {
     keyPressTime.value = Date.now();
   }
 
-  setTimeout(resetKey, 1000 / 8); // beats per second
+  setTimeout(resetKey, tempo); // beats per second
 }
 
 const handleKeyPress = (event: KeyboardEvent) => {
@@ -146,16 +148,14 @@ function playHistory() {
 
         setTimeout(() => {
           activeKey.value = "";
-        }, 125);
+        }, tempo);
       }, delay),
     );
 
-    // Ändra till 250 för gamla
-    delay += 125;
+    delay += tempo;
 
     if (i + 1 < decrypted.length && !isNaN(parseInt(decrypted[i + 1]))) {
-      delay += parseInt(decrypted[i + 1]) * 125;
-      // Ändra till 250 för gamla
+      delay += parseInt(decrypted[i + 1]) * tempo;
       i++;
     }
   }
@@ -183,8 +183,10 @@ let forceIOSBehavior = false;
 unmute(audioContext, allowBackgroundPlayback, forceIOSBehavior);
 
 const playSound = (soundId: string) => {
+  if (!soundId) return;
+
   const buffer = audioBuffers.value[soundId];
-  if (!buffer) return; // Exit if buffer is not loaded or had an error
+  if (!buffer) return;
 
   const source = audioContext.createBufferSource();
   source.buffer = buffer;
