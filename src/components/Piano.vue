@@ -228,7 +228,7 @@ onUnmounted(() => {
 <template>
   <div class="wrapper flex flex-col">
     <Instructions />
-    <AnimationGroup :pianoNot="activeKey" />
+    <AnimationGroup :pianoNote="activeKey" />
 
     <div class="piano">
       <div

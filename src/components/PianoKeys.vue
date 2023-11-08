@@ -1,21 +1,4 @@
-<script setup lang="ts">
-// import { ref, watchEffect } from "vue";
-
-// const props = defineProps<{
-//   pianoNot: string | null;
-// }>();
-
-// const fillColor = ref("red");
-
-// watchEffect(() => {
-//   if (props.pianoNot === null) {
-//     fillColor.value = "blue";
-//   }
-//   if (props.pianoNot === "c") {
-//     fillColor.value = "#00FF00";
-//   }
-// });
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <svg

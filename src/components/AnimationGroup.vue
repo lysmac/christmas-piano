@@ -4,7 +4,7 @@ import Elf from "./Elf.vue";
 import Van from "./Van.vue";
 
 const props = defineProps<{
-  pianoNot: string | null;
+  pianoNote: string | null;
 }>();
 </script>
 
@@ -18,43 +18,43 @@ const props = defineProps<{
       :startX="70"
       :startY="150"
       :angle="-25"
-      :active="props.pianoNot === 'a'"
+      :active="props.pianoNote === 'a'"
     />
     <Elf
       :startX="70"
       :startY="140"
       :angle="25"
-      :active="props.pianoNot === 'b'"
+      :active="props.pianoNote === 'b'"
     />
     <Elf
       :startX="35"
       :startY="140"
       :angle="-15"
-      :active="props.pianoNot === 'c'"
+      :active="props.pianoNote === 'c'"
     />
     <Elf
       :startX="90"
       :startY="150"
       :angle="80"
-      :active="props.pianoNot === 'd'"
+      :active="props.pianoNote === 'd'"
     />
     <Elf
       :startX="-20"
       :startY="100"
       :angle="0"
-      :active="props.pianoNot === 'e'"
+      :active="props.pianoNote === 'e'"
     />
     <Elf
       :startX="-10"
       :startY="10"
       :angle="180"
-      :active="props.pianoNot === 'f'"
+      :active="props.pianoNote === 'f'"
     />
     <Elf
       :startX="120"
       :startY="170"
       :angle="-25"
-      :active="props.pianoNot === 'g'"
+      :active="props.pianoNote === 'g'"
     />
 
     <Van />

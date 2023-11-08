@@ -86,7 +86,5 @@ function decryptData(char: string) {
     return 8;
   }
 
-  // Om återställa till 250ms, return 4 på ;. Ta bort allt efter 4
-
   return "";
 }
