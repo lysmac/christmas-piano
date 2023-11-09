@@ -41,6 +41,6 @@ watchEffect(() => {
 }
 
 li {
-  @apply flex flex-1 items-center justify-center bg-white text-2xl font-extrabold uppercase;
+  @apply flex flex-1 select-none items-center justify-center bg-white text-2xl font-extrabold uppercase;
 }
 </style>

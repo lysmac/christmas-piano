@@ -78,9 +78,10 @@ const isPlaying = ref(false);
 const playbackTimeouts: number[] = [];
 
 const tempo = 125;
+
+const defaultMelody = "EESEESEGCDZFFMmFEEEeEDDEyg";
 // This is the default melody that will play if you visit the site without a melody in the URL
 // The current string is Jingle Bells
-const defaultMelody = "EESEESEGCDZFFMmFEEEeEDDEyg";
 
 function handleClick(clickedKey: Note) {
   activeKey.value = clickedKey.letter;
@@ -237,8 +238,10 @@ onUnmounted(() => {
         class="buttons absolute -top-28 z-20 flex w-full flex-col items-center gap-1 text-lg"
       >
         <button
+          :disabled="recordToggle"
           @click="playHistory()"
           class="w-1/2 border-2 border-slate-800 bg-white p-1 font-extrabold uppercase"
+          :class="recordToggle ? 'opacity-50' : ''"
         >
           {{ isPlaying ? "Stop song" : "▶︎ Play song" }}
         </button>
@@ -246,12 +249,10 @@ onUnmounted(() => {
           :disabled="isPlaying"
           @click="recordToggle = !recordToggle"
           class="w-1/2 border-2 border-slate-800 bg-white p-1 font-extrabold uppercase"
+          :class="isPlaying ? 'opacity-50' : ''"
         >
           {{ recordToggle ? "Stop recording" : " 🔴 Record" }}
         </button>
-        <!-- <button @click="clearHistory()" class="bg-white p-2 rounded">
-        Clear history
-      </button> -->
       </div>
       <ul class="text-black-500 flex h-full gap-0.5">
         <Key
