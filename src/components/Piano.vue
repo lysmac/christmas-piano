@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watch } from "vue";
 import Key from "../components/Key.vue";
-import { Encryption } from "../encryption"; // Import the Encryption class
+import { Encryption } from "../encryption";
 import { unmute } from "../unmute.js";
 import AnimationGroup from "./AnimationGroup.vue";
 import Instructions from "./Instructions.vue";
@@ -12,6 +12,12 @@ type Note = {
   keycode: number;
   number: string;
 };
+
+export type History = {
+  time: number;
+  note: string;
+};
+
 const piano: Note[] = [
   {
     sound: "/sounds/glockenspiel/c.wav",
@@ -57,14 +63,7 @@ const piano: Note[] = [
   },
 ];
 
-export type History = {
-  time: number;
-  note: string;
-};
-
 const newHistory: History[] = [];
-
-const history = ref<Array<string | number>>([]);
 
 const activeKey = ref<string | null>(null);
 
@@ -75,6 +74,7 @@ const timeBetweenKeyPresses = ref<number>(0);
 const recordToggle = ref(false);
 
 const isPlaying = ref(false);
+
 const playbackTimeouts: number[] = [];
 
 const tempo = 125;
@@ -94,8 +94,6 @@ function handleClick(clickedKey: Note) {
         time: 0,
         note: clickedKey.letter,
       });
-      history.value.push(0);
-      history.value.push(clickedKey.letter);
     }
   } else {
     timeBetweenKeyPresses.value = Date.now() - keyPressTime.value;
@@ -104,8 +102,6 @@ function handleClick(clickedKey: Note) {
         time: timeBetweenKeyPresses.value,
         note: clickedKey.letter,
       });
-      history.value.push(timeBetweenKeyPresses.value);
-      history.value.push(clickedKey.letter);
     }
     keyPressTime.value = Date.now();
   }
@@ -153,7 +149,7 @@ function playHistory() {
         activeKey.value = matchedNote.letter;
 
         setTimeout(() => {
-          activeKey.value = "";
+          resetKey();
         }, tempo);
       }, delay),
     );
@@ -174,7 +170,6 @@ function playHistory() {
 }
 
 function clearHistory() {
-  history.value = [];
   newHistory.length = 0;
   window.history.replaceState(null, "", "/");
 }
@@ -189,9 +184,6 @@ let forceIOSBehavior = false;
 unmute(audioContext, allowBackgroundPlayback, forceIOSBehavior);
 
 const playSound = (soundId: string) => {
-  if (audioContext.state === "suspended") {
-    audioContext.resume();
-  }
   if (!soundId) return;
 
   const buffer = audioBuffers.value[soundId];
@@ -205,7 +197,6 @@ const playSound = (soundId: string) => {
 
 watch(recordToggle, (val, oldVal) => {
   if (oldVal) {
-    history.value.push(0);
     const shorterString = Encryption.encrypt(newHistory);
     window.history.replaceState(null, "", shorterString);
   }
