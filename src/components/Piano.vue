@@ -235,7 +235,7 @@ onUnmounted(() => {
 
     <div class="piano">
       <div
-        class="buttons absolute -top-28 z-20 flex w-full flex-col items-center gap-1 text-lg"
+        class="buttons absolute -top-28 z-50 flex w-full flex-col items-center gap-1 text-lg"
       >
         <button
           :disabled="recordToggle"

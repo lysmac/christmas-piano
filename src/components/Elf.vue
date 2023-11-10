@@ -6,6 +6,7 @@ const props = defineProps({
   startY: { type: Number, default: 200 },
   angle: { type: Number, default: 0 },
   active: { type: Boolean, default: false },
+  zIndex: { type: Number, default: 0 },
 });
 
 const isAnimating = ref(false);
@@ -48,7 +49,8 @@ watchEffect(() => {
     xmlns:xlink="http://www.w3.org/1999/xlink"
     :viewBox="`${startX} ${startY} 390 644`"
     :style="{ transform: `rotate(${props.angle}deg)` }"
-    class="absolute z-10"
+    class="absolute"
+    :class="`z-${props.zIndex}`"
   >
     <g class="elfSettings" :class="isAnimating ? 'peek' : ''">
       <image
