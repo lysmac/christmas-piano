@@ -82,19 +82,16 @@ watchEffect(() => {
 }
 
 .wave {
-  animation: rotate 1s;
+  animation: rotate 0.125s;
 }
 
 @keyframes rotate {
   0%,
   100% {
-    transform: rotate(0deg);
+    rotate: 0deg;
   }
-  33% {
-    transform: rotate(-90deg);
-  }
-  66% {
-    transform: rotate(90deg);
+  50% {
+    transform: rotate(-40deg);
   }
 }
 </style>
