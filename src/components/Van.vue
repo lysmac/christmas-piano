@@ -5,7 +5,7 @@
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
     viewBox="0 100 390 644"
-    class="absolute"
+    class="absolute z-10"
   >
     <image
       width="791"

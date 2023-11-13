@@ -39,12 +39,13 @@ const props = defineProps<{
       :angle="80"
       :active="props.pianoNote === 'd'"
     />
+    <!-- z-index should be over 10 to be on top of the left part of the van -->
     <Elf
       :startX="-5"
       :startY="30"
       :angle="-70"
       :active="props.pianoNote === 'e'"
-      :zIndex="10"
+      :zIndex="20"
     />
     <Elf
       :startX="150"
