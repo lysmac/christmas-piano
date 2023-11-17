@@ -79,7 +79,7 @@ const playbackTimeouts: number[] = [];
 
 const tempo = 125;
 
-const defaultMelody = "EESEESEGCDZFFMmFEEEeEDDEyg";
+const defaultMelody = "EESEESEGCDZFFMmFEEllEDDEyg";
 // This is the default melody that will play if you visit the site without a melody in the URL
 // The current string is Jingle Bells
 

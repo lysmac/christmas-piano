@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply flex  items-center flex-col  bg-cover bg-center m-0 p-0;
+  @apply m-0  flex flex-col  items-center bg-cover bg-center p-0;
   height: 100vh;
+  height: 100dvh;
 }
