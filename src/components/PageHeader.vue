@@ -29,7 +29,7 @@
         stroke-linecap="round"
       />
     </svg>
-    <img src="src/assets/images/modul-system.jpeg" class="max-h-full" />
+    <img src="../assets/images/modul-system.jpeg" class="max-h-full" />
   </header>
 </template>
 
